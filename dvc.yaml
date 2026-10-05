@@ -1,0 +1,33 @@
+stages:
+  prepare:
+    cmd: uv run --group train dice-data prepare --raw data/raw --out data/processed
+    deps:
+      - data/raw
+      - src/dice_viewer/dataset.py
+    outs:
+      - data/processed
+  detector:
+    cmd: uv run --group train dice-train detector --processed data/processed --output artifacts
+    deps:
+      - data/processed
+      - src/dice_viewer/training.py
+    outs:
+      - artifacts/detector
+  readers:
+    cmd: uv run --group train dice-train readers --processed data/processed --output artifacts
+    deps:
+      - data/processed
+      - src/dice_viewer/reader.py
+      - src/dice_viewer/training.py
+    outs:
+      - artifacts/readers
+  select:
+    cmd: uv run --group train dice-evaluate select --raw data/raw --processed data/processed --artifacts artifacts
+    deps:
+      - data/raw
+      - data/processed
+      - artifacts/detector
+      - artifacts/readers
+      - src/dice_viewer/evaluation.py
+    outs:
+      - artifacts/selection.json

@@ -1,0 +1,11 @@
+.git/
+.dvc/
+.venv/
+.tools/
+.cache/
+.env
+data/
+artifacts/
+runtime/
+*.log
+yolo11n.pt

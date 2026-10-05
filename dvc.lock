@@ -1,0 +1,96 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: uv run --group train dice-data prepare --raw data/raw --out
+      data/processed
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 4d24dcfc6491b808708d6fcf7e2b4cde.dir
+      size: 100486975
+      nfiles: 462
+    - path: src/dice_viewer/dataset.py
+      hash: md5
+      md5: 954db33269d10e12529cc04b517ff294
+      size: 9877
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: e5677c694fb47be7baf80a87f76c4deb.dir
+      size: 117902687
+      nfiles: 1799
+  detector:
+    cmd: uv run --group train dice-train detector --processed data/processed
+      --output artifacts
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: e5677c694fb47be7baf80a87f76c4deb.dir
+      size: 117902687
+      nfiles: 1799
+    - path: src/dice_viewer/training.py
+      hash: md5
+      md5: 24d24cdc1528b5612fde3ac44cbfcb1d
+      size: 6916
+    outs:
+    - path: artifacts/detector
+      hash: md5
+      md5: 032573d79d518d0101636b7ce1436599.dir
+      size: 20428835
+      nfiles: 24
+  readers:
+    cmd: uv run --group train dice-train readers --processed data/processed
+      --output artifacts
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: e5677c694fb47be7baf80a87f76c4deb.dir
+      size: 117902687
+      nfiles: 1799
+    - path: src/dice_viewer/reader.py
+      hash: md5
+      md5: 43d1249e7919444eb330449a3c7a6354
+      size: 5063
+    - path: src/dice_viewer/training.py
+      hash: md5
+      md5: 24d24cdc1528b5612fde3ac44cbfcb1d
+      size: 6916
+    outs:
+    - path: artifacts/readers
+      hash: md5
+      md5: 44f6d3c95e3fea6483f360a45432a849.dir
+      size: 22011197
+      nfiles: 4
+  select:
+    cmd: uv run --group train dice-evaluate select --raw data/raw --processed
+      data/processed --artifacts artifacts
+    deps:
+    - path: artifacts/detector
+      hash: md5
+      md5: 032573d79d518d0101636b7ce1436599.dir
+      size: 20428835
+      nfiles: 24
+    - path: artifacts/readers
+      hash: md5
+      md5: 44f6d3c95e3fea6483f360a45432a849.dir
+      size: 22011197
+      nfiles: 4
+    - path: data/processed
+      hash: md5
+      md5: e5677c694fb47be7baf80a87f76c4deb.dir
+      size: 117902687
+      nfiles: 1799
+    - path: data/raw
+      hash: md5
+      md5: 4d24dcfc6491b808708d6fcf7e2b4cde.dir
+      size: 100486975
+      nfiles: 462
+    - path: src/dice_viewer/evaluation.py
+      hash: md5
+      md5: 83aa2c61263d5eef2d569063debf737c
+      size: 13163
+    outs:
+    - path: artifacts/selection.json
+      hash: md5
+      md5: a950d79689d6fef6a71daa035f8889cb
+      size: 14858

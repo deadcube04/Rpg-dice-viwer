@@ -1,0 +1,5 @@
+outs:
+- md5: 962d4f4669a62e96ff1dd52ec52ea8ef
+  size: 200
+  hash: md5
+  path: benchmark.json

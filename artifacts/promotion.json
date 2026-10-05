@@ -1,0 +1,8 @@
+{
+  "model_tag": "dice_bundle:s7tgkawa62epoaa2",
+  "git_revision": "uncommitted",
+  "code_sha256": "b9767ff258f1fe4aeb276c1cce982393a8d5c5a36bc135f94206dbca22cd53ad",
+  "source_sha256": "85f0af97b99f89d24baf8021b79451f1fd2743049d6fa52b3ab5747d8cbcc44c",
+  "export_sha256": "89a66e2c9b0bed67ed4999d8c3dc7641e71825119c31d33d00fc76dee4dfd938",
+  "s3_key": "dice-models/dice_bundle:s7tgkawa62epoaa2.bentomodel"
+}

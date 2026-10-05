@@ -1,0 +1,6 @@
+[core]
+    no_scm = false
+    remote = localminio
+['remote "localminio"']
+    url = s3://dice-datasets/dvc
+    endpointurl = http://127.0.0.1:9000
