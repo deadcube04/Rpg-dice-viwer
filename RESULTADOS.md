@@ -48,4 +48,6 @@ Depois de 30 chamadas de aquecimento e 200 chamadas medidas na imagem com GPU RT
 
 A API retornou revisão para fotos com zero e vários dados detectados e armazenou uma correção humana. Após reiniciar o contêiner, o SQLite ainda continha a correção, vinculada à versão do modelo, e a imagem correspondente permanecia no MinIO. O rollback para uma versão anterior não pôde ser exercitado porque esta é a primeira imagem promovida; seu digest já está em `artifacts/releases.jsonl` para a próxima promoção.
 
+Em uma checagem operacional adicional, um D4 fora do escopo recebeu uma leitura forçada como D8, porém com decisão `review_required`. Isso mostra que o leitor não identifica explicitamente tipos desconhecidos; a segurança atual depende do limiar sem aceites. Não havia exemplos rotulados como ilegíveis no conjunto reservado para medir esse caso separadamente.
+
 Não é adequado ativar aceitação automática com esses resultados. O serviço está disponível para revisão humana e coleta de feedback, sem retreino automático.
