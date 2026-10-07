@@ -1,0 +1,6 @@
+path: C:/MLops-dice-viwer/dice-viwer/data/processed-next/detector
+train: train/images
+val: valid/images
+test: test/images
+names:
+  0: die

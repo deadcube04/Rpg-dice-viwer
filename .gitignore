@@ -10,6 +10,11 @@ __pycache__/
 .dvc/tmp/
 data/raw/
 data/processed/
+data/audit-*/
+audit-ui/node_modules/
+audit-ui/dist/
+audit-ui/.bun-tmp/
+audit-ui/*.tsbuildinfo
 artifacts/*
 !artifacts/*.dvc
 !artifacts/promotion.json

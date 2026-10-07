@@ -34,6 +34,7 @@ dice-benchmark = "dice_viewer.operations:benchmark_main"
 dice-feedback-report = "dice_viewer.monitoring:main"
 dice-report = "dice_viewer.report:main"
 dice-release = "dice_viewer.release:main"
+dice-audit = "dice_viewer.audit:main"
 
 [build-system]
 requires = ["hatchling>=1.26,<2"]

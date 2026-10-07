@@ -1,0 +1,25 @@
+.add-button {
+  width: 100%;
+  margin-top: 9px;
+  border: 1px dashed #91b59b;
+  border-radius: 4px;
+  background: #f5faf6;
+  color: #326b48;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.add-button:hover { background: #eaf4ec; }
+
+.upload-panel { border-bottom: 1px solid #e7ebe6; padding: 9px 18px; }
+.upload-toggle { width: 100%; display: flex; justify-content: space-between; border: 1px solid #c9dfd0;
+  border-radius: 5px; background: #eef7f0; color: #276548; padding: 9px 11px; font-size: 12px; font-weight: 700; }
+.upload-panel form { display: flex; flex-direction: column; gap: 9px; padding: 12px 2px 4px; }
+.upload-panel label { display: flex; flex-direction: column; gap: 5px; color: #586761; font-size: 11px; font-weight: 700; }
+.upload-panel input,.upload-panel select { min-width: 0; border: 1px solid #d4ddd6; border-radius: 5px;
+  background: #fff; color: #233b31; padding: 7px; font-size: 11px; }
+.upload-panel input[type=file] { padding: 6px 3px; }
+.upload-panel p { margin: 0; color: #819087; font-size: 10px; line-height: 1.4; }
+.upload-panel .upload-error { color: #a03f36; }
+.upload-submit { border: 0; border-radius: 5px; padding: 9px; background: #205a42; color: white; font-size: 11px; font-weight: 700; }

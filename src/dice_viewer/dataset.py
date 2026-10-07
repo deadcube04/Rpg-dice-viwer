@@ -39,6 +39,8 @@ def image_path(root: Path, file_name: str) -> Path:
 
 
 def split_for(row: dict[str, Any]) -> str:
+    if row.get("split_override") in {"train", "valid", "test"}:
+        return str(row["split_override"])
     if row["camera"] in TEST_CAMERAS:
         return "test"
     if row["camera"] == VALID_CAMERA and row["epoch"] >= VALID_FROM:

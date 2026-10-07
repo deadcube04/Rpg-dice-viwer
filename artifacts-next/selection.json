@@ -1,0 +1,575 @@
+{
+  "selected": "efficientnet_b0",
+  "threshold": 1.01,
+  "candidates": [
+    {
+      "architecture": "efficientnet_b0",
+      "reader_folder": "artifacts-next\\readers\\efficientnet_b0",
+      "validation": {
+        "correct": 36,
+        "total": 47,
+        "joint_accuracy": 0.7659574468085106,
+        "joint_wilson_95": [
+          0.6277546774315923,
+          0.8639686357607541
+        ],
+        "detector_recall_iou50": 1.0,
+        "single_die_full_frame": {
+          "correct": 1,
+          "total": 5,
+          "joint_accuracy": 0.2,
+          "wilson_95": [
+            0.03622316096978745,
+            0.6244717358814613
+          ]
+        },
+        "inference_p50_ms": 85.88865003548563,
+        "inference_p95_ms": 176.53555998404045,
+        "by_type": {
+          "d6": {
+            "correct": 8,
+            "total": 9
+          },
+          "d8": {
+            "correct": 7,
+            "total": 8
+          },
+          "d10": {
+            "correct": 7,
+            "total": 7
+          },
+          "d12": {
+            "correct": 5,
+            "total": 10
+          },
+          "d20": {
+            "correct": 9,
+            "total": 13
+          }
+        },
+        "type_confusion": {
+          "d6": {
+            "d6": 9
+          },
+          "d8": {
+            "d8": 7,
+            "d10": 1
+          },
+          "d10": {
+            "d10": 7
+          },
+          "d12": {
+            "d20": 1,
+            "d12": 9
+          },
+          "d20": {
+            "d20": 13
+          }
+        },
+        "value_confusion_by_type": {
+          "d6": {
+            "6": {
+              "6": 1
+            },
+            "5": {
+              "5": 1,
+              "6": 1
+            },
+            "3": {
+              "3": 3
+            },
+            "4": {
+              "4": 3
+            }
+          },
+          "d8": {
+            "6": {
+              "6": 2
+            },
+            "4": {
+              "4": 2
+            },
+            "8": {
+              "8": 1
+            },
+            "3": {
+              "3": 2
+            },
+            "5": {
+              "5": 1
+            }
+          },
+          "d10": {
+            "4": {
+              "4": 1
+            },
+            "2": {
+              "2": 1
+            },
+            "7": {
+              "7": 1
+            },
+            "8": {
+              "8": 1
+            },
+            "9": {
+              "9": 2
+            },
+            "10": {
+              "10": 1
+            }
+          },
+          "d12": {
+            "9": {
+              "6": 1
+            },
+            "10": {
+              "10": 1
+            },
+            "11": {
+              "4": 1
+            },
+            "12": {
+              "2": 1,
+              "12": 1
+            },
+            "1": {
+              "1": 1
+            },
+            "2": {
+              "2": 1
+            },
+            "4": {
+              "2": 1
+            },
+            "6": {
+              "3": 1
+            },
+            "8": {
+              "8": 1
+            }
+          },
+          "d20": {
+            "8": {
+              "9": 1
+            },
+            "7": {
+              "7": 1
+            },
+            "13": {
+              "3": 1,
+              "13": 1
+            },
+            "20": {
+              "20": 2
+            },
+            "3": {
+              "3": 1
+            },
+            "4": {
+              "4": 1
+            },
+            "17": {
+              "17": 1
+            },
+            "5": {
+              "5": 1
+            },
+            "18": {
+              "8": 1
+            },
+            "15": {
+              "15": 1
+            },
+            "12": {
+              "14": 1
+            }
+          }
+        },
+        "examples_by_class": {
+          "d10=10": 1,
+          "d10=2": 1,
+          "d10=4": 1,
+          "d10=7": 1,
+          "d10=8": 1,
+          "d10=9": 2,
+          "d12=1": 1,
+          "d12=10": 1,
+          "d12=11": 1,
+          "d12=12": 2,
+          "d12=2": 1,
+          "d12=4": 1,
+          "d12=6": 1,
+          "d12=8": 1,
+          "d12=9": 1,
+          "d20=12": 1,
+          "d20=13": 2,
+          "d20=15": 1,
+          "d20=17": 1,
+          "d20=18": 1,
+          "d20=20": 2,
+          "d20=3": 1,
+          "d20=4": 1,
+          "d20=5": 1,
+          "d20=7": 1,
+          "d20=8": 1,
+          "d6=3": 3,
+          "d6=4": 3,
+          "d6=5": 2,
+          "d6=6": 1,
+          "d8=3": 2,
+          "d8=4": 2,
+          "d8=5": 1,
+          "d8=6": 2,
+          "d8=8": 1
+        },
+        "frame_categories": {
+          "multiple_annotated_dice": 37,
+          "outside_reading_scope": 8,
+          "single_trusted_die": 5,
+          "untrusted_reading": 2
+        },
+        "detection_counts": {
+          "multiple_annotated_dice:8": 2,
+          "outside_reading_scope:1": 8,
+          "multiple_annotated_dice:3": 13,
+          "multiple_annotated_dice:2": 7,
+          "multiple_annotated_dice:5": 8,
+          "multiple_annotated_dice:4": 5,
+          "multiple_annotated_dice:9": 1,
+          "multiple_annotated_dice:6": 1,
+          "single_trusted_die:2": 3,
+          "untrusted_reading:2": 1,
+          "single_trusted_die:1": 2,
+          "untrusted_reading:1": 1
+        }
+      },
+      "oracle_reader": {
+        "correct": 38,
+        "total": 47,
+        "joint_accuracy": 0.8085106382978723,
+        "by_type": {
+          "d10": {
+            "correct": 6,
+            "total": 7
+          },
+          "d12": {
+            "correct": 7,
+            "total": 10
+          },
+          "d20": {
+            "correct": 10,
+            "total": 13
+          },
+          "d6": {
+            "correct": 8,
+            "total": 9
+          },
+          "d8": {
+            "correct": 7,
+            "total": 8
+          }
+        }
+      },
+      "threshold": 1.01,
+      "calibration": {
+        "accepted": 0,
+        "errors": 0,
+        "coverage": 0.0,
+        "observed_false_accept": null,
+        "false_accept_wilson_95": null,
+        "calibration_supported": false
+      }
+    },
+    {
+      "architecture": "mobilenet_v3_small",
+      "reader_folder": "artifacts-next\\readers\\mobilenet_v3_small",
+      "validation": {
+        "correct": 16,
+        "total": 47,
+        "joint_accuracy": 0.3404255319148936,
+        "joint_wilson_95": [
+          0.22167260713762188,
+          0.4832934049469702
+        ],
+        "detector_recall_iou50": 1.0,
+        "single_die_full_frame": {
+          "correct": 0,
+          "total": 5,
+          "joint_accuracy": 0.0,
+          "wilson_95": [
+            0.0,
+            0.43449149475208104
+          ]
+        },
+        "inference_p50_ms": 68.31784997484647,
+        "inference_p95_ms": 133.91538499563458,
+        "by_type": {
+          "d6": {
+            "correct": 7,
+            "total": 9
+          },
+          "d8": {
+            "correct": 3,
+            "total": 8
+          },
+          "d10": {
+            "correct": 3,
+            "total": 7
+          },
+          "d12": {
+            "correct": 2,
+            "total": 10
+          },
+          "d20": {
+            "correct": 1,
+            "total": 13
+          }
+        },
+        "type_confusion": {
+          "d6": {
+            "d6": 9
+          },
+          "d8": {
+            "d8": 8
+          },
+          "d10": {
+            "d10": 6,
+            "d8": 1
+          },
+          "d12": {
+            "d12": 10
+          },
+          "d20": {
+            "d20": 13
+          }
+        },
+        "value_confusion_by_type": {
+          "d6": {
+            "6": {
+              "6": 1
+            },
+            "5": {
+              "6": 2
+            },
+            "3": {
+              "3": 3
+            },
+            "4": {
+              "4": 3
+            }
+          },
+          "d8": {
+            "6": {
+              "8": 1,
+              "6": 1
+            },
+            "4": {
+              "4": 1,
+              "1": 1
+            },
+            "8": {
+              "8": 1
+            },
+            "3": {
+              "2": 1,
+              "8": 1
+            },
+            "5": {
+              "3": 1
+            }
+          },
+          "d10": {
+            "4": {
+              "2": 1
+            },
+            "2": {
+              "2": 1
+            },
+            "7": {
+              "7": 1
+            },
+            "8": {
+              "8": 1
+            },
+            "9": {
+              "2": 1,
+              "8": 1
+            },
+            "10": {
+              "2": 1
+            }
+          },
+          "d12": {
+            "9": {
+              "8": 1
+            },
+            "10": {
+              "6": 1
+            },
+            "11": {
+              "11": 1
+            },
+            "12": {
+              "8": 1,
+              "2": 1
+            },
+            "1": {
+              "2": 1
+            },
+            "2": {
+              "4": 1
+            },
+            "4": {
+              "2": 1
+            },
+            "6": {
+              "3": 1
+            },
+            "8": {
+              "8": 1
+            }
+          },
+          "d20": {
+            "8": {
+              "9": 1
+            },
+            "7": {
+              "2": 1
+            },
+            "13": {
+              "2": 1,
+              "8": 1
+            },
+            "20": {
+              "11": 1,
+              "17": 1
+            },
+            "3": {
+              "9": 1
+            },
+            "4": {
+              "4": 1
+            },
+            "17": {
+              "1": 1
+            },
+            "5": {
+              "4": 1
+            },
+            "18": {
+              "8": 1
+            },
+            "15": {
+              "8": 1
+            },
+            "12": {
+              "17": 1
+            }
+          }
+        },
+        "examples_by_class": {
+          "d10=10": 1,
+          "d10=2": 1,
+          "d10=4": 1,
+          "d10=7": 1,
+          "d10=8": 1,
+          "d10=9": 2,
+          "d12=1": 1,
+          "d12=10": 1,
+          "d12=11": 1,
+          "d12=12": 2,
+          "d12=2": 1,
+          "d12=4": 1,
+          "d12=6": 1,
+          "d12=8": 1,
+          "d12=9": 1,
+          "d20=12": 1,
+          "d20=13": 2,
+          "d20=15": 1,
+          "d20=17": 1,
+          "d20=18": 1,
+          "d20=20": 2,
+          "d20=3": 1,
+          "d20=4": 1,
+          "d20=5": 1,
+          "d20=7": 1,
+          "d20=8": 1,
+          "d6=3": 3,
+          "d6=4": 3,
+          "d6=5": 2,
+          "d6=6": 1,
+          "d8=3": 2,
+          "d8=4": 2,
+          "d8=5": 1,
+          "d8=6": 2,
+          "d8=8": 1
+        },
+        "frame_categories": {
+          "multiple_annotated_dice": 37,
+          "outside_reading_scope": 8,
+          "single_trusted_die": 5,
+          "untrusted_reading": 2
+        },
+        "detection_counts": {
+          "multiple_annotated_dice:8": 2,
+          "outside_reading_scope:1": 8,
+          "multiple_annotated_dice:3": 13,
+          "multiple_annotated_dice:2": 7,
+          "multiple_annotated_dice:5": 8,
+          "multiple_annotated_dice:4": 5,
+          "multiple_annotated_dice:9": 1,
+          "multiple_annotated_dice:6": 1,
+          "single_trusted_die:2": 3,
+          "untrusted_reading:2": 1,
+          "single_trusted_die:1": 2,
+          "untrusted_reading:1": 1
+        }
+      },
+      "oracle_reader": {
+        "correct": 17,
+        "total": 47,
+        "joint_accuracy": 0.3617021276595745,
+        "by_type": {
+          "d10": {
+            "correct": 2,
+            "total": 7
+          },
+          "d12": {
+            "correct": 3,
+            "total": 10
+          },
+          "d20": {
+            "correct": 1,
+            "total": 13
+          },
+          "d6": {
+            "correct": 8,
+            "total": 9
+          },
+          "d8": {
+            "correct": 3,
+            "total": 8
+          }
+        }
+      },
+      "threshold": 1.01,
+      "calibration": {
+        "accepted": 0,
+        "errors": 0,
+        "coverage": 0.0,
+        "observed_false_accept": null,
+        "false_accept_wilson_95": null,
+        "calibration_supported": false
+      }
+    }
+  ],
+  "detector_path": "artifacts-next\\detector\\best.pt",
+  "selection_order": [
+    "single_die_image_joint_accuracy",
+    "observed_false_accept",
+    "auto_accept_coverage",
+    "per_die_joint_accuracy",
+    "inference_p95_ms"
+  ]
+}
