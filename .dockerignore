@@ -1,7 +1,7 @@
 **
 !Dockerfile
-!deployment/
-!deployment/requirements-serving.txt
+!pyproject.toml
+!uv.lock
 !service.py
 !src/
 !src/dice_viewer/

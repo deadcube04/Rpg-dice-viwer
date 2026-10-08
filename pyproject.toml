@@ -58,6 +58,9 @@ system_packages = ["libgl1", "libglib2.0-0"]
 torch = [{ index = "pytorch-cu126", marker = "sys_platform == 'win32'" }]
 torchvision = [{ index = "pytorch-cu126", marker = "sys_platform == 'win32'" }]
 
+[tool.uv]
+required-version = "==0.12.23"
+
 [[tool.uv.index]]
 name = "pytorch-cu126"
 url = "https://download.pytorch.org/whl/cu126"

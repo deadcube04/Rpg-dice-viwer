@@ -1,14 +1,16 @@
 # RPG Dice Viewer
 
-Aplicação acadêmica para demonstrar, localmente, a leitura de **um dado de RPG em uma fotografia** usando um modelo de visão computacional já treinado. A aplicação recebe a imagem pelo **Swagger** e apresenta o **tipo do dado** e o **valor previsto**.
+Aplicação acadêmica para demonstrar, localmente, a leitura de **um dado de RPG em uma fotografia** usando um modelo de visão computacional já treinado. A API **BentoML** recebe a imagem e apresenta o **tipo do dado** e o **valor previsto** pelo Swagger.
 
-O projeto é executado com Docker e utiliza uma GPU NVIDIA. Não é necessário instalar Python, bibliotecas de aprendizado de máquina ou ferramentas de desenvolvimento além das indicadas abaixo.
+**Pilha:** BentoML para servir o modelo, `uv` 0.12.23 para instalar dependências fixadas por `pyproject.toml` e `uv.lock`, e Docker Compose para executar a aplicação reproduzivelmente. Python **3.11** roda dentro do contêiner. O computador de apresentação não precisa instalar Python nem `uv`.
+
+Não há agente no fluxo de inferência, então o Google ADK não é necessário. GitHub Actions e Ruff podem ser adicionados depois como automação de CI; eles não são necessários para iniciar a demonstração.
 
 > **Importante:** o modelo produz previsões, que podem estar incorretas. Esta aplicação foi preparada para demonstração local, não para disponibilização como serviço público.
 
 ## 1. Preparação do computador
 
-Este guia considera um computador **Windows 11 de 64 bits (Intel/AMD), versão 23H2 (build 22631) ou mais recente**, com **pelo menos 8 GB de RAM**, processador compatível com SLAT, virtualização habilitada no BIOS/UEFI e **GPU NVIDIA compatível** com as bibliotecas CUDA 12.6 utilizadas pelo contêiner. Esses são requisitos do Docker Desktop com backend WSL2; confira os [requisitos oficiais do Docker Desktop para Windows](https://docs.docker.com/desktop/setup/install/windows-install/). Reserve, como recomendação prática, cerca de **30 GB de espaço livre** para os downloads e a construção da imagem Docker. A primeira instalação e construção precisam de internet e podem baixar vários gigabytes.
+Este guia considera um computador **Windows 11 de 64 bits (Intel/AMD), versão 23H2 (build 22631) ou mais recente**, com **pelo menos 8 GB de RAM**, processador compatível com SLAT, virtualização habilitada no BIOS/UEFI e **GPU NVIDIA compatível** com as bibliotecas CUDA usadas pelo contêiner. Esses são requisitos do Docker Desktop com backend WSL2; confira os [requisitos oficiais do Docker Desktop para Windows](https://docs.docker.com/desktop/setup/install/windows-install/). Reserve, como recomendação prática, cerca de **30 GB de espaço livre** para os downloads e a construção da imagem Docker. A primeira instalação e construção precisam de internet e podem baixar vários gigabytes.
 
 ### 1.1. Instalar o Git
 
@@ -84,9 +86,9 @@ cd Rpg-dice-viwer
 docker compose up -d --build
 ```
 
-Na primeira execução, o Docker fará o download das dependências, construirá a imagem e iniciará o serviço. Não feche o Docker Desktop.
+Na primeira execução, o Docker instalará Python 3.11 e as dependências usando `uv sync --locked`, conforme o `uv.lock`, construirá a imagem e iniciará o serviço. Reserve aproximadamente **10 a 30 minutos** para o primeiro build; o tempo varia conforme a internet e o computador. Os builds seguintes costumam ser mais rápidos quando as dependências não mudam. Não feche o Docker Desktop.
 
-**Não é necessário** criar um arquivo `.env`, importar o modelo manualmente, iniciar o MinIO/MLflow ou instalar Python, PyTorch, BentoML, Node.js e CUDA Toolkit no computador.
+**Não é necessário** criar um arquivo `.env`, importar o modelo manualmente, iniciar o MinIO/MLflow ou instalar Python, `uv`, PyTorch, BentoML, Node.js e CUDA Toolkit no computador. A versão e as dependências Python são administradas durante o build a partir dos arquivos `pyproject.toml` e `uv.lock`.
 
 ### Verificar se a aplicação está pronta
 
@@ -114,6 +116,21 @@ Quando estiver pronta, a resposta deve indicar `status: ready`, o modelo `dice_b
 
 ## 3. Enviar uma foto pelo Swagger
 
+O contrato da API é `POST /v1/predictions`, com uma imagem JPEG ou PNG no campo multipart `file`. O retorno contém `die_type` e `value`. Exemplo de chamada copiável no PowerShell (ajuste o caminho para uma imagem existente):
+
+```powershell
+curl.exe -X POST http://localhost:3000/v1/predictions -F "file=@C:\Fotos\dado.jpg"
+```
+
+Exemplo de resposta:
+
+```json
+{
+  "die_type": "D20",
+  "value": 10
+}
+```
+
 Com o serviço em estado **healthy**, abra no navegador:
 
 **http://localhost:3000/docs**
@@ -124,7 +141,7 @@ Com o serviço em estado **healthy**, abra no navegador:
 4. Clique em **Execute**.
 5. Na seção **Response body**, observe `die_type` (tipo) e `value` (valor previsto).
 
-Uma resposta de exemplo é:
+No Swagger, a resposta tem este formato:
 
 ```json
 {
@@ -142,14 +159,6 @@ Neste exemplo, o modelo prevê um dado de **20 faces (D20)** com resultado **10*
 - Evite imagens vazias ou com vários dados. O modo de apresentação classifica a **foto inteira** e não verifica automaticamente a quantidade de dados presentes.
 
 O resultado é uma previsão do modelo existente e não uma garantia de acerto. O Swagger não exige etapa de revisão ou feedback.
-
-### Alternativa: enviar a imagem pelo PowerShell
-
-Se preferir, use o comando abaixo, substituindo o caminho pelo da sua foto:
-
-```powershell
-curl.exe -X POST http://localhost:3000/v1/predictions -F "file=@C:\Fotos\dado.jpg"
-```
 
 ## 4. Parar, iniciar e consultar o serviço
 
@@ -216,11 +225,13 @@ A implantação descrita depende dos arquivos do projeto, incluindo:
 Rpg-dice-viwer/
 ├── .dockerignore
 ├── .gitignore
+├── .env.example
+├── LICENSE
 ├── Dockerfile
 ├── compose.yaml
 ├── compose.mlops.yaml
-├── deployment/
-│   └── requirements-serving.txt
+├── pyproject.toml
+├── uv.lock
 ├── artifacts-next/
 │   └── dice_bundle-e33njkwb56yiiaa2.bentomodel
 ├── service.py
@@ -243,4 +254,12 @@ O modo padrão da API usa o leitor treinado diretamente sobre a imagem inteira d
 
 O serviço padrão executa apenas `dice-service`, disponível em `127.0.0.1:3000` **na própria máquina**, com Swagger e recursos locais. Depois que a imagem Docker estiver construída e o serviço iniciado, a demonstração pode funcionar sem internet.
 
-A configuração MLOps anterior permanece separada em `compose.mlops.yaml`, com requisitos próprios, e **não é necessária para esta apresentação**. Não execute as duas configurações na mesma porta. Há também um fluxo técnico de detecção e leitura (`?details=true`) usado por ferramentas de estudo; ele não faz parte das etapas do tutorial do Swagger.
+A configuração MLOps anterior permanece separada em `compose.mlops.yaml` e **não é necessária para esta apresentação**. Para usá-la, configure as variáveis listadas sem valores em `.env.example` num arquivo local `.env`; esse arquivo é ignorado pelo Git. Não execute as duas configurações na mesma porta. Há também um fluxo técnico de detecção e leitura (`?details=true`) usado por ferramentas de estudo; ele não faz parte das etapas do tutorial do Swagger.
+
+## 9. Uso de IA
+
+Ferramentas de IA generativa foram usadas como apoio à implementação da configuração de serving e à preparação desta documentação. A IA não treinou nem alterou os pesos do bundle servido nesta etapa. A equipe é responsável por revisar e validar o código, as instruções e os resultados apresentados.
+
+## 10. Licença
+
+Este projeto é distribuído sob a licença **MIT**. Consulte o arquivo [`LICENSE`](LICENSE) para ver os termos.

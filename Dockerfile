@@ -1,8 +1,12 @@
 FROM python:3.11-slim@sha256:0dd364ba7e10242f07755449e3a3d0e35f9efd987952737b90def6709ab0c5ce
+COPY --from=ghcr.io/astral-sh/uv:0.12.23 /uv /uvx /bin/
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/app/src \
+    PATH=/app/.venv/bin:$PATH \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
     BENTOML_HOME=/opt/bentoml \
     BENTOML_DO_NOT_TRACK=true \
     YOLO_CONFIG_DIR=/tmp/ultralytics \
@@ -15,8 +19,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY deployment/requirements-serving.txt /app/deployment/requirements-serving.txt
-RUN pip install --no-cache-dir -r deployment/requirements-serving.txt
+COPY pyproject.toml uv.lock ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-install-project --no-dev
 
 COPY service.py /app/service.py
 COPY src/dice_viewer /app/src/dice_viewer
