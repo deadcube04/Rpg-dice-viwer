@@ -1,4 +1,4 @@
-"""Local feedback ledger with images in the configured MinIO bucket."""
+"""Persistent feedback ledger with images on local disk or in MinIO."""
 
 from __future__ import annotations
 
@@ -22,13 +22,21 @@ class FeedbackStore:
     def __init__(self) -> None:
         self.database = Path(os.environ.get("DICE_SQLITE_PATH", "runtime/feedback.db"))
         self.database.parent.mkdir(parents=True, exist_ok=True)
+        self.backend = os.environ.get("DICE_STORAGE_BACKEND", "s3")
+        if self.backend not in {"local", "s3"}:
+            raise ValueError("DICE_STORAGE_BACKEND must be local or s3")
+        self.image_directory = Path(os.environ.get("DICE_LOCAL_IMAGE_DIR", "runtime/images"))
         self.bucket = os.environ.get("DICE_IMAGE_BUCKET", "dice-feedback")
-        self.s3 = boto3.client(
-            "s3", endpoint_url=os.environ.get("S3_ENDPOINT", "http://127.0.0.1:9000"),
-            aws_access_key_id=os.environ["S3_ACCESS_KEY"], aws_secret_access_key=os.environ["S3_SECRET_KEY"],
-            region_name=os.environ.get("S3_REGION", "us-east-1"),
-            config=Config(signature_version="s3v4", s3={"addressing_style": "path"}),
-        )
+        self.s3 = None
+        if self.backend == "local":
+            (self.image_directory / "predictions").mkdir(parents=True, exist_ok=True)
+        else:
+            self.s3 = boto3.client(
+                "s3", endpoint_url=os.environ.get("S3_ENDPOINT", "http://127.0.0.1:9000"),
+                aws_access_key_id=os.environ["S3_ACCESS_KEY"], aws_secret_access_key=os.environ["S3_SECRET_KEY"],
+                region_name=os.environ.get("S3_REGION", "us-east-1"),
+                config=Config(signature_version="s3v4", s3={"addressing_style": "path"}),
+            )
         self._create_schema()
 
     def _connect(self) -> sqlite3.Connection:
@@ -55,17 +63,47 @@ class FeedbackStore:
     def ready(self) -> bool:
         with self._connect() as connection:
             connection.execute("SELECT 1").fetchone()
-        self.s3.head_bucket(Bucket=self.bucket)
+            connection.execute("BEGIN IMMEDIATE")
+            connection.rollback()
+        if self.s3 is not None:
+            self.s3.head_bucket(Bucket=self.bucket)
+        else:
+            probe = self.image_directory / "predictions" / f".ready-{uuid.uuid4().hex}"
+            try:
+                with probe.open("xb") as stream:
+                    stream.write(b"ready")
+            finally:
+                probe.unlink(missing_ok=True)
         return True
+
+    def _save_image(self, key: str, body: bytes, image_sha256: str, model_version: str, extension: str) -> None:
+        if self.s3 is not None:
+            self.s3.put_object(Bucket=self.bucket, Key=key, Body=io.BytesIO(body),
+                               ContentType="image/jpeg" if extension == ".jpg" else "image/png",
+                               Metadata={"sha256": image_sha256, "model-version": model_version})
+        else:
+            destination = self.image_directory / key
+            temporary = destination.with_suffix(".tmp")
+            try:
+                temporary.write_bytes(body)
+                temporary.replace(destination)
+            finally:
+                temporary.unlink(missing_ok=True)
+
+    def _delete_image(self, key: str) -> None:
+        if self.s3 is not None:
+            self.s3.delete_object(Bucket=self.bucket, Key=key)
+        else:
+            (self.image_directory / key).unlink(missing_ok=True)
 
     def save_prediction(self, image_bytes: bytes, image_sha256: str, extension: str,
                         model_version: str, status: str, reason: str | None,
                         sides: int | None, value: int | None, confidence: float | None) -> str:
+        if extension not in {".jpg", ".png"}:
+            raise ValueError("Unsupported image extension")
         prediction_id = str(uuid.uuid4())
         key = f"predictions/{prediction_id}{extension}"
-        self.s3.put_object(Bucket=self.bucket, Key=key, Body=io.BytesIO(image_bytes),
-                           ContentType="image/jpeg" if extension == ".jpg" else "image/png",
-                           Metadata={"sha256": image_sha256, "model-version": model_version})
+        self._save_image(key, image_bytes, image_sha256, model_version, extension)
         try:
             with self._connect() as connection:
                 connection.execute("""INSERT INTO predictions
@@ -73,7 +111,7 @@ class FeedbackStore:
                     VALUES (?,?,?,?,?,?,?,?,?,?)""",
                     (prediction_id, key, image_sha256, model_version, status, reason, sides, value, confidence, utc_now()))
         except Exception:
-            self.s3.delete_object(Bucket=self.bucket, Key=key)
+            self._delete_image(key)
             raise
         return prediction_id
 

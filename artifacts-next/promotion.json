@@ -1,8 +1,0 @@
-{
-  "model_tag": "dice_bundle:e33njkwb56yiiaa2",
-  "git_revision": "5542129e9db50da7c848a90dfb9bea548d5350e4",
-  "code_sha256": "d212e56817572097ec08aa2be3c57ee6eb35764251501be09c6d3c8f11f6360a",
-  "source_sha256": "06e938831e2ce222d857de416786f21de00c3bc12c154cde2ff9bd52246a142c",
-  "export_sha256": "4d306b197cf4a2d245dfae23fd5c6993dc4d32eb59129a25a861de4a5308cd4d",
-  "s3_key": "dice-models/dice_bundle:e33njkwb56yiiaa2.bentomodel"
-}

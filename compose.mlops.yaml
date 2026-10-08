@@ -1,0 +1,79 @@
+name: dice-viewer-mlops
+services:
+  minio:
+    image: cgr.dev/chainguard/minio@sha256:4cf4831a2bbcf13ddca09c1cbcc9faff716dd3c4247e0babc32864b8ee8e0034
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Set MINIO_ROOT_USER in .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - minio-data:/data
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v3.15.1-full
+    command:
+      - mlflow
+      - server
+      - --backend-store-uri
+      - sqlite:////state/mlflow.db
+      - --artifacts-destination
+      - s3://dice-mlflow-artifacts
+      - --host
+      - 0.0.0.0
+      - --port
+      - "5000"
+      - --allowed-hosts
+      - localhost:*,127.0.0.1:5000,mlflow:5000
+    environment:
+      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+      AWS_DEFAULT_REGION: us-east-1
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - mlflow-state:/state
+    depends_on:
+      minio:
+        condition: service_started
+  feedback-init:
+    image: ${DICE_IMAGE:?Set DICE_IMAGE to an immutable Bento container tag}
+    user: "0:0"
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["chown -R 1034:1034 /state"]
+    volumes:
+      - feedback-state:/state
+    restart: "no"
+  dice-service:
+    image: ${DICE_IMAGE:?Set DICE_IMAGE to an immutable Bento container tag}
+    environment:
+      DICE_MODEL_TAG: ${DICE_MODEL_TAG:?Set DICE_MODEL_TAG to the promoted model tag}
+      DICE_STORAGE_BACKEND: s3
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      S3_REGION: us-east-1
+      DICE_IMAGE_BUCKET: dice-feedback
+      DICE_SQLITE_PATH: /state/feedback.db
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - feedback-state:/state
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    depends_on:
+      minio:
+        condition: service_started
+      feedback-init:
+        condition: service_completed_successfully
+volumes:
+  minio-data:
+  mlflow-state:
+  feedback-state:

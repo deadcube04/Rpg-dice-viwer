@@ -30,7 +30,7 @@ def post_image(url: str, path: Path) -> dict:
     mime = "image/png" if path.suffix.lower() == ".png" else "image/jpeg"
     body = (f"--{boundary}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{path.name}\"\r\n"
             f"Content-Type: {mime}\r\n\r\n").encode() + image_bytes + f"\r\n--{boundary}--\r\n".encode()
-    request = Request(url.rstrip("/") + "/v1/predictions", body,
+    request = Request(url.rstrip("/") + "/v1/predictions?details=true", body,
                       headers={"Content-Type": f"multipart/form-data; boundary={boundary}"}, method="POST")
     with urlopen(request, timeout=30) as response:
         return json.load(response)

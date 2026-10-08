@@ -1,0 +1,10 @@
+**
+!Dockerfile
+!deployment/
+!deployment/requirements-serving.txt
+!service.py
+!src/
+!src/dice_viewer/
+!src/dice_viewer/*.py
+!artifacts-next/
+!artifacts-next/dice_bundle-e33njkwb56yiiaa2.bentomodel

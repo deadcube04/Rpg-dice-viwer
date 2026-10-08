@@ -1,82 +1,246 @@
-# Reconhecimento de dados de RPG
+# RPG Dice Viewer
 
-Serviço Python local para uma foto de **um** D6, D8, D10, D12 ou D20. A resposta inclui tipo, face, confiança, decisão e versão. Zero ou vários dados exigem revisão. O símbolo `0` no D10 é apresentado como `10`.
+Aplicação acadêmica para demonstrar, localmente, a leitura de **um dado de RPG em uma fotografia** usando um modelo de visão computacional já treinado. A aplicação recebe a imagem pelo **Swagger** e apresenta o **tipo do dado** e o **valor previsto**.
 
-## Dados e atribuição
+O projeto é executado com Docker e utiliza uma GPU NVIDIA. Não é necessário instalar Python, bibliotecas de aprendizado de máquina ou ferramentas de desenvolvimento além das indicadas abaixo.
 
-Fonte: [G-G-Games/diecamera-frames](https://huggingface.co/datasets/G-G-Games/diecamera-frames), derivado do [dieCamera](https://github.com/eschatus/diecamera), licença declarada **CC BY-SA 4.0**. Esta cópia local foi usada para fins acadêmicos. A cópia do manifesto tem 460 fotos; o README da fonte informa números mais antigos. O snapshot é identificado pelo SHA-256 do `metadata.jsonl` e dos arquivos em `data/raw/snapshot.json`.
+> **Importante:** o modelo produz previsões, que podem estar incorretas. Esta aplicação foi preparada para demonstração local, não para disponibilização como serviço público.
 
-O split ocorre por foto, antes dos recortes. Treino: outras câmeras e datas, 342 fotos e 655 recortes com face confiável; validação: HD USB a partir de 13/08/2026, 52 fotos e 84 recortes; teste reservado: iPhone e Nintendo Switch, 66 fotos e 134 recortes. Os IDs, câmeras e hashes ficam em `data/processed/frame_manifest.jsonl` e `reader_manifest.jsonl`. A única anotação inválida `D20=0` permanece na detecção, mas não é usada para ler a face. Fotos com `values_trusted=false` contribuem apenas para detecção.
+## 1. Preparação do computador
 
-O teste usa câmeras distintas **dentro do mesmo dieCamera**. Ainda falta a avaliação em outro dataset exigida pelo documento original. Os resultados e metas devem ser reportados separadamente.
+Este guia considera um computador **Windows 11 de 64 bits (Intel/AMD), versão 23H2 (build 22631) ou mais recente**, com **pelo menos 8 GB de RAM**, processador compatível com SLAT, virtualização habilitada no BIOS/UEFI e **GPU NVIDIA compatível** com as bibliotecas CUDA 12.6 utilizadas pelo contêiner. Esses são requisitos do Docker Desktop com backend WSL2; confira os [requisitos oficiais do Docker Desktop para Windows](https://docs.docker.com/desktop/setup/install/windows-install/). Reserve, como recomendação prática, cerca de **30 GB de espaço livre** para os downloads e a construção da imagem Docker. A primeira instalação e construção precisam de internet e podem baixar vários gigabytes.
 
-## Ambiente
+### 1.1. Instalar o Git
 
-Requer Python 3.11, Docker Desktop com WSL2 e GPU NVIDIA para treino e serviço. A referência é RTX 2060 com 6 GB. Na raiz do projeto, instalar `uv` e executar `uv sync --group train --locked`. Um `uv.exe` local pode ficar em `.tools/Scripts`; nesse caso, inclua essa pasta no `PATH` da sessão. O lock fixa as versões usadas; no Windows, Torch e Torchvision vêm do índice CUDA 12.6.
-
-Copie `.env.example` para `.env`, crie credenciais locais fortes e mantenha o arquivo fora do Git. Na sessão PowerShell que executa os comandos Python, importe as variáveis do arquivo:
-
-```powershell
-Get-Content .env | ForEach-Object { if ($_ -match '^([^#=]+)=(.*)$') { [Environment]::SetEnvironmentVariable($matches[1],$matches[2],'Process') } }
-$env:DVC_SITE_CACHE_DIR = (Join-Path (Get-Location) '.cache/dvc-site')
-$env:DVC_SYSTEM_CONFIG_DIR = (Join-Path (Get-Location) '.cache/dvc-system')
-$env:DVC_NO_ANALYTICS = 'true'
-```
-
-Inicie armazenamento e rastreamento:
+1. Baixe o [Git para Windows](https://git-scm.com/install/windows).
+2. Execute o instalador, mantendo as opções padrão caso não tenha necessidades específicas.
+3. Abra o **PowerShell** e verifique:
 
 ```powershell
-docker compose up -d minio
-uv run --group train python -m dice_viewer.bootstrap
-docker compose up -d mlflow
+git --version
 ```
 
-Os endpoints do Compose são publicados somente em `127.0.0.1`. O MinIO usa volumes locais, portanto **não é backup externo**. O bucket de dados é `dice-datasets`; MLflow usa SQLite persistente e `dice-mlflow-artifacts`.
+### 1.2. Instalar ou atualizar o driver NVIDIA
 
-## Dados, treino e escolha
-
-O snapshot original é criado uma vez, antes de reproduzir os estágios. `dvc add` e `dvc push` o publicam no MinIO local. Credenciais são lidas de variáveis de ambiente.
+1. Baixe o driver correspondente à sua placa no [site oficial da NVIDIA](https://www.nvidia.com/Download/index.aspx).
+2. Instale-o e reinicie o computador, se necessário.
+3. No PowerShell, confira se a placa é reconhecida:
 
 ```powershell
-uv run --group train dice-data snapshot --source C:\diecamera-frames\data --target data\raw
-uv run --group train dvc add data\raw
-uv run --group train dvc push data\raw.dvc
-uv run --group train dvc repro
+nvidia-smi
 ```
 
-`dvc repro` prepara os recortes, treina YOLO11n e os dois leitores (MobileNetV3 Small e EfficientNet-B0), e seleciona na validação. Há semente 42, parada antecipada e hiperparâmetros no MLflow. O detector usa imagens com caixas válidas. Só recortes com faces confiáveis alimentam os leitores. A confiança de inferência é o produto das probabilidades de detector, tipo e valor; ela define uma ordenação, não uma probabilidade calibrada. O limiar é congelado antes do teste. A calibração exige limite superior de Wilson de 95% inferior a 5% para falso aceite e pelo menos 20 aceitações. Se não houver evidência, o limiar `1.01` envia todas as predições para revisão.
+O comando deve exibir informações da GPU. Não é necessário instalar o CUDA Toolkit no Windows: as bibliotecas usadas pelo modelo ficam na imagem Docker.
 
-O teste reservado é executado **uma única vez** depois de `selection.json`:
+### 1.3. Instalar o WSL2
+
+Abra o **PowerShell como administrador** e execute:
 
 ```powershell
-uv run --group train dice-evaluate test
-uv run --group train dice-promote
+wsl --install
 ```
 
-`artifacts/evaluation.json` registra métricas por dado e por imagem com um dado, intervalo de Wilson, detecção, leitor com recorte correto, aceitação e p50/p95. A meta de negócio é acerto conjunto ≥95%, falso aceite <5%, p95 de inferência ≤1 s e redução ≥50% do tempo mediano. Uma meta não atingida deve ser declarada como tal.
-
-`dice-report` escreve `artifacts/target-report.json` com os quatro critérios e marca evidência ausente como meta ainda não comprovada. Execute novamente após o benchmark e o estudo humano.
-
-## Serviço e operação
-
-Depois da promoção, fixe `DICE_MODEL_TAG` em `.env` à tag retornada. Gere a imagem BentoML com `bentoml build` e `bentoml containerize <bento:tag>`; registre `DICE_IMAGE` em `.env` com a tag imutável da imagem criada. Execute `dice-release --image <imagem:tag> --bento <bento:tag>` para guardar o ID de imagem e o predecessor em `artifacts/releases.jsonl`. Então:
+Reinicie o computador quando solicitado e conclua a configuração inicial da distribuição Linux, caso apareça. Depois, abra novamente o PowerShell e execute:
 
 ```powershell
-docker compose up -d dice-service
+wsl --update
+wsl --set-default-version 2
+wsl --version
 ```
 
-API local em `http://127.0.0.1:3000`:
+O Docker Desktop requer **WSL 2.1.5 ou mais recente**. Confira a versão no resultado de `wsl --version`; se estiver desatualizada, execute `wsl --update` e reinicie o computador. Consulte os [requisitos oficiais de WSL2 para o Docker Desktop](https://docs.docker.com/desktop/features/wsl/).
 
-- `POST /v1/predictions`: multipart com campo `file`, JPEG ou PNG até 10 MB/25 MP. Retorna `prediction_id`, `die_type` (por exemplo, `D20`), `sides`, `value`, `confidence`, `model_version`, `status` (`accepted`/`review_required`) e `reason`.
-- `POST /v1/predictions/{id}/feedback`: JSON `{"confirmed":true,"sides":20,"value":14}`. Uma confirmação deve coincidir com a predição; uma correção usa `confirmed:false`.
-- `GET /health`: prontidão de GPU, modelo, SQLite e MinIO. `GET /v1/metrics`: métricas Prometheus.
+Mais informações: [instalação do WSL pela Microsoft](https://learn.microsoft.com/windows/wsl/install).
 
-As imagens de entrada são guardadas em `dice-feedback`, e predições e feedbacks no SQLite persistente. Feedback não promove nem treina modelos automaticamente. Faça revisão periódica dos exemplos confirmados; correções espontâneas não medem a taxa real de erro.
+> Se o WSL2 não iniciar, verifique se a virtualização está habilitada no BIOS/UEFI do computador.
 
-Após aquecimento do contêiner, `dice-benchmark` registra p50/p95 da inferência e da chamada HTTP. `dice-study manual` e `dice-study api` conduzem o estudo interativo nas mesmas 30 fotos de teste, registrando medianas e erros em `artifacts/study-*.json`. `dice-study compare` calcula a redução observada. A observação humana é necessária. `dice-feedback-report --database <caminho-do-sqlite>` compara a distribuição de feedback com a de treino. Para verificar a operação, envie fotos com um, zero e vários dados; corrija uma predição, reinicie o serviço e confirme a persistência; em seguida aponte `DICE_IMAGE`/`DICE_MODEL_TAG` para a versão anterior, execute `docker compose up -d --force-recreate dice-service` e confira `/health`.
+### 1.4. Instalar o Docker Desktop
 
-## Versionamento e limites
+1. Baixe e instale o [Docker Desktop para Windows](https://docs.docker.com/desktop/setup/install/windows-install/).
+2. Abra o Docker Desktop e aguarde o mecanismo de execução iniciar.
+3. Em **Settings → General**, habilite **Use the WSL 2 based engine**.
+4. Utilize **Linux containers**, não Windows containers.
 
-[GitHub do projeto](https://github.com/deadcube04/Rpg-dice-viwer) guarda código, configuração, `uv.lock`, descritores DVC e documentação. Imagens, pesos, caches, logs, bancos e segredos ficam fora do Git. Cada leitor registra a revisão de código, hash do código, hash de manifesto e split e ID de run MLflow. A promoção vincula esses identificadores à tag BentoML. O modelo promovido também é exportado ao bucket local `dice-models`.
+Abra o PowerShell e verifique:
 
-Esta fase mede dados e modelo e faz verificação manual da API; não inclui suíte automatizada de testes. Não há integração com o RPG Manager nem leitura automática de vários dados.
+```powershell
+docker version
+docker compose version
+```
+
+Em `docker version`, devem aparecer as informações de **Client** e **Server**. Se somente o Client aparecer, confira se o Docker Desktop está aberto e funcionando.
+
+A integração de GPU com Docker Desktop/WSL2 é descrita na [documentação oficial do Docker](https://docs.docker.com/desktop/features/gpu/).
+
+## 2. Baixar e iniciar a aplicação
+
+> **Atenção a quem prepara a apresentação:** os arquivos da implantação precisam estar publicados no repositório remoto antes que o comando `git clone` permita reproduzir a versão descrita neste guia. Este README não confirma que essas alterações já foram publicadas.
+
+Com o Docker Desktop em execução, abra o **PowerShell** na pasta onde deseja guardar o projeto e execute:
+
+```powershell
+git clone https://github.com/deadcube04/Rpg-dice-viwer.git
+cd Rpg-dice-viwer
+docker compose up -d --build
+```
+
+Na primeira execução, o Docker fará o download das dependências, construirá a imagem e iniciará o serviço. Não feche o Docker Desktop.
+
+**Não é necessário** criar um arquivo `.env`, importar o modelo manualmente, iniciar o MinIO/MLflow ou instalar Python, PyTorch, BentoML, Node.js e CUDA Toolkit no computador.
+
+### Verificar se a aplicação está pronta
+
+Ainda na pasta do projeto, execute:
+
+```powershell
+docker compose ps
+```
+
+Aguarde até o serviço `dice-service` aparecer com o estado **healthy**. Para acompanhar a inicialização:
+
+```powershell
+docker compose logs -f dice-service
+```
+
+Pressione **Ctrl+C** para sair da visualização dos logs. Isso **não** interrompe o serviço.
+
+Também é possível verificar a API com:
+
+```powershell
+curl.exe http://localhost:3000/health
+```
+
+Quando estiver pronta, a resposta deve indicar `status: ready`, o modelo `dice_bundle:e33njkwb56yiiaa2`, armazenamento local disponível e informações da GPU.
+
+## 3. Enviar uma foto pelo Swagger
+
+Com o serviço em estado **healthy**, abra no navegador:
+
+**http://localhost:3000/docs**
+
+1. Expanda **POST `/v1/predictions` — Enviar foto para o modelo**.
+2. Clique em **Try it out**.
+3. No campo **file**, escolha uma fotografia do dado.
+4. Clique em **Execute**.
+5. Na seção **Response body**, observe `die_type` (tipo) e `value` (valor previsto).
+
+Uma resposta de exemplo é:
+
+```json
+{
+  "die_type": "D20",
+  "value": 10
+}
+```
+
+Neste exemplo, o modelo prevê um dado de **20 faces (D20)** com resultado **10**. Os tipos previstos pela aplicação são **D6, D8, D10, D12 e D20**. O **D4 não faz parte** do escopo. Para o D10, o símbolo zero corresponde ao valor 10.
+
+**Recomendações para a fotografia:**
+
+- Envie uma imagem **JPEG ou PNG**, com tamanho máximo de **10 MiB** e resolução de até **25 megapixels**.
+- Fotografe **apenas um dado**, com boa iluminação, nitidez e ocupando boa parte da imagem.
+- Evite imagens vazias ou com vários dados. O modo de apresentação classifica a **foto inteira** e não verifica automaticamente a quantidade de dados presentes.
+
+O resultado é uma previsão do modelo existente e não uma garantia de acerto. O Swagger não exige etapa de revisão ou feedback.
+
+### Alternativa: enviar a imagem pelo PowerShell
+
+Se preferir, use o comando abaixo, substituindo o caminho pelo da sua foto:
+
+```powershell
+curl.exe -X POST http://localhost:3000/v1/predictions -F "file=@C:\Fotos\dado.jpg"
+```
+
+## 4. Parar, iniciar e consultar o serviço
+
+Execute os comandos a seguir **dentro da pasta do repositório**, com o Docker Desktop aberto:
+
+| O que fazer | Comando |
+| --- | --- |
+| Parar o serviço | `docker compose stop` |
+| Iniciar novamente | `docker compose start` |
+| Reiniciar o serviço | `docker compose restart dice-service` |
+| Ver os últimos logs | `docker compose logs --tail 100 dice-service` |
+| Remover o contêiner (sem apagar o volume) | `docker compose down` |
+| Criar/iniciar novamente | `docker compose up -d` |
+| Reconstruir após atualizar os arquivos | `docker compose up -d --build` |
+
+## 5. Registros e backup
+
+A aplicação usa **armazenamento local** em um volume do Docker chamado `demo-state` (normalmente `dice-viewer-demo_demo-state`). Os registros de previsões, feedback e imagens ficam no volume, incluindo:
+
+- Banco SQLite: `/state/feedback.db`.
+- Imagens: `/state/images/predictions/`.
+
+Os registros permanecem após parar, reiniciar ou recriar o contêiner, **desde que o volume não seja removido**. O Git não transfere esses registros entre computadores.
+
+Para copiar os registros para a pasta do projeto, execute:
+
+```powershell
+docker compose stop dice-service
+docker compose cp dice-service:/state ./registros-apresentacao
+docker compose start dice-service
+```
+
+A pasta `registros-apresentacao/` é ignorada pelo Git. **Não publique imagens pessoais, bancos de dados, arquivos `.env`, ambientes virtuais, caches ou imagens Docker.**
+
+> **Cuidado:** não execute `docker compose down -v` se quiser preservar o histórico. A opção `-v` remove os volumes associados.
+
+## 6. Solução de problemas
+
+| Problema | Como verificar ou corrigir |
+| --- | --- |
+| `docker version` mostra apenas Client ou não conecta ao Server | Abra o Docker Desktop, aguarde o engine iniciar e confirme o uso de contêineres Linux. |
+| Erro relacionado à GPU NVIDIA | Verifique `nvidia-smi`, atualize o driver, execute `wsl --update` e confirme o backend WSL2 do Docker Desktop. |
+| GPU incompatível ou erro de CUDA | Consulte os logs e a compatibilidade da placa com as bibliotecas CUDA 12.6 da imagem. Instalar CUDA Toolkit no Windows não é uma correção automática. |
+| Porta 3000 já utilizada | Libere a porta ou altere a publicação no `compose.yaml` para `127.0.0.1:3002:3000`. Nesse caso, abra `http://localhost:3002/docs`. |
+| Swagger não abre | Confira `docker compose ps` e aguarde `healthy`; depois consulte `docker compose logs --tail 100 dice-service`. |
+| Swagger exibe uma versão antiga | Recarregue `http://localhost:3000/docs` com **Ctrl+F5**. |
+| Falha ao baixar dependências ou construir a imagem | Verifique conexão com a internet, proxy, certificados e espaço livre. Não desative a verificação TLS. |
+| Bundle ausente ou hash incorreto | Restaure o arquivo original do modelo e reconstrua a imagem, sem substituí-lo por outro modelo. |
+| Erro de armazenamento | Verifique espaço disponível e permissões do volume Docker; consulte os logs. |
+| HTTP **422** ao enviar a foto | Confira se o campo usado é `file`, se a imagem é JPEG/PNG válido e se respeita os limites de tamanho e resolução. |
+| Tipo ou valor previsto incorreto | Experimente outra foto do mesmo dado com enquadramento, iluminação e nitidez melhores. A previsão pode falhar. |
+
+Se o erro persistir, consulte os logs:
+
+```powershell
+docker compose logs --tail 100 dice-service
+```
+
+## 7. Arquivos necessários no repositório
+
+A implantação descrita depende dos arquivos do projeto, incluindo:
+
+```text
+Rpg-dice-viwer/
+├── .dockerignore
+├── .gitignore
+├── Dockerfile
+├── compose.yaml
+├── compose.mlops.yaml
+├── deployment/
+│   └── requirements-serving.txt
+├── artifacts-next/
+│   └── dice_bundle-e33njkwb56yiiaa2.bentomodel
+├── service.py
+└── src/
+    └── dice_viewer/
+        ├── deployment.py
+        ├── service.py
+        ├── storage.py
+        ├── operations.py
+        └── inference.py
+```
+
+Essa listagem destaca os arquivos relevantes e **não representa toda a estrutura do repositório**. Os demais módulos Python necessários também devem permanecer versionados. O arquivo `HANDOFF_README.md` é apenas material de apoio à documentação e não é exigido para executar o serviço.
+
+O modelo empregado é o bundle **`dice_bundle:e33njkwb56yiiaa2`**, armazenado em `artifacts-next/dice_bundle-e33njkwb56yiiaa2.bentomodel`. Durante o build, a integridade do arquivo é verificada e ele é importado para a imagem, sem treinamento ou alteração dos pesos.
+
+## 8. Limitações e configuração opcional
+
+O modo padrão da API usa o leitor treinado diretamente sobre a imagem inteira de um único dado. **Ele não confirma a existência do dado nem conta quantos dados aparecem**. Uma imagem vazia ou com vários dados pode produzir uma previsão mesmo sem ser uma entrada adequada. A precisão geral desse modo de apresentação ainda não foi medida.
+
+O serviço padrão executa apenas `dice-service`, disponível em `127.0.0.1:3000` **na própria máquina**, com Swagger e recursos locais. Depois que a imagem Docker estiver construída e o serviço iniciado, a demonstração pode funcionar sem internet.
+
+A configuração MLOps anterior permanece separada em `compose.mlops.yaml`, com requisitos próprios, e **não é necessária para esta apresentação**. Não execute as duas configurações na mesma porta. Há também um fluxo técnico de detecção e leitura (`?details=true`) usado por ferramentas de estudo; ele não faz parte das etapas do tutorial do Swagger.

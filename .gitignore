@@ -23,3 +23,13 @@ runtime/
 mlruns/
 *.db
 *.db-*
+registros-apresentacao/
+
+# Serving clone only: retain the already-trained Bento bundle, not datasets or duplicate weights.
+/data/processed-next/
+/artifacts-next/*
+!/artifacts-next/dice_bundle-e33njkwb56yiiaa2.bentomodel
+
+# Local handoff files are working material, not repository deliverables.
+/HANDOFF_README.md
+/README*1*.md

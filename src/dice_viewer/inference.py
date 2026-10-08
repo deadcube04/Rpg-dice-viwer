@@ -19,7 +19,7 @@ class DiePrediction:
     sides: int
     value: int
     confidence: float
-    detector_confidence: float
+    detector_confidence: float | None
     type_confidence: float
     value_confidence: float
 
@@ -42,6 +42,15 @@ class InferenceEngine:
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.detector = YOLO(str(detector_path))
         self.reader, self.reader_metadata = load_reader(reader_folder, self.device)
+
+    @torch.inference_mode()
+    def predict_single(self, image: Image.Image) -> DiePrediction:
+        """Read a supplied photo of one die without relying on object detection."""
+        sides, value, type_conf, value_conf = classify(self.reader, image, self.device)
+        return DiePrediction(
+            (0, 0, image.width, image.height), sides, value,
+            type_conf * value_conf, None, type_conf, value_conf,
+        )
 
     @torch.inference_mode()
     def predict(self, image: Image.Image) -> list[DiePrediction]:
