@@ -2,6 +2,31 @@
 
 Aplicação acadêmica para demonstrar, localmente, a leitura de **um dado de RPG em uma fotografia** usando um modelo de visão computacional já treinado. A API **BentoML** recebe a imagem e apresenta o **tipo do dado** e o **valor previsto** pelo Swagger.
 
+## Objetivo e decisão apoiada
+
+O RPG Dice Viewer é o MVP de inferência do **NEXUS**, cuja proposta é conectar a rolagem de dados físicos ao registro digital de uma sessão de RPG. O objetivo é apoiar a identificação do tipo de dado e do valor da face superior, reduzindo o esforço de leitura e digitação e as interrupções durante a partida.
+
+A decisão apoiada é **qual tipo de dado e qual resultado registrar na sessão**. No fluxo de negócio proposto, o **jogador** confere a previsão e corrige eventuais erros antes do registro; o **mestre** acompanha o resultado e pode intervir em uma correção. O modelo fornece uma sugestão, e a decisão final permanece com essas pessoas.
+
+Nesta entrega, a unidade de análise é uma foto JPEG ou PNG contendo **um único D6, D8, D10, D12 ou D20**. O serviço retorna o tipo e o valor previstos. Captura automática da foto, integração à plataforma NEXUS, registro no histórico da sessão e interpretação de regras de RPG são etapas futuras. O Swagger atual não exige confirmação humana da previsão.
+
+## Processo de negócio e impacto esperado
+
+O processo afetado é o **registro de rolagens físicas em uma sessão digital de RPG**. Atualmente, o jogador ou mestre lê o dado, alterna a atenção para a plataforma, digita o resultado, confere e salva o registro. Essa tarefa recorrente demanda atenção e cria oportunidades de erro de lançamento.
+
+| Etapa | Antes: processo manual | Depois: integração proposta ao NEXUS |
+| --- | --- | --- |
+| Obter o resultado | Rolar o dado físico e ler a face superior | Rolar o dado físico e disponibilizar uma foto de um único dado |
+| Preparar o registro | Identificar o tipo e digitar o valor | Receber da API a previsão de tipo e valor |
+| Conferir | Conferir o lançamento manual | Conferir a previsão e corrigir quando necessário |
+| Concluir | Salvar o resultado na sessão | Registrar o resultado conferido no histórico da sessão |
+
+**O MVP atual entrega a etapa de inferência:** recebe uma imagem e responde com a previsão. Os registros técnicos locais da API não equivalem ao histórico de uma partida. A conferência na plataforma e o registro no histórico dependem da integração futura.
+
+O impacto esperado é diminuir o tempo de registro e os erros de digitação, preservando a continuidade da partida. A apresentação propõe como metas reduzir em pelo menos **50% o tempo mediano de registro** em relação ao processo manual, alcançar **95% de acerto**, manter **p95 de inferência de até 1 segundo** e **menos de 5% de falso aceite** caso venha a existir registro automático. Essas metas orientam a avaliação; **não representam resultados comprovados para o modo padrão desta entrega**. A redução de esforço precisa ser medida no processo completo, incluindo disponibilizar a foto e conferir a previsão.
+
+## Visão técnica
+
 **Pilha:** BentoML para servir o modelo, `uv` 0.12.23 para instalar dependências fixadas por `pyproject.toml` e `uv.lock`, e Docker Compose para executar a aplicação reproduzivelmente. Python **3.11** roda dentro do contêiner. O computador de apresentação não precisa instalar Python nem `uv`.
 
 Não há agente no fluxo de inferência, então o Google ADK não é necessário. GitHub Actions e Ruff podem ser adicionados depois como automação de CI; eles não são necessários para iniciar a demonstração.
@@ -258,7 +283,13 @@ A configuração MLOps anterior permanece separada em `compose.mlops.yaml` e **n
 
 ## 9. Uso de IA
 
-Ferramentas de IA generativa foram usadas como apoio à implementação da configuração de serving e à preparação desta documentação. A IA não treinou nem alterou os pesos do bundle servido nesta etapa. A equipe é responsável por revisar e validar o código, as instruções e os resultados apresentados.
+O modelo foi treinado com auxílio de IA. O **Codex** foi utilizado como ferramenta de apoio ao desenvolvimento do fluxo de treinamento, à implementação da configuração de serving e à preparação desta documentação. As solicitações à ferramenta envolveram auxiliar na implementação dessas etapas e na organização das instruções de execução.
+
+Cada dado utilizado no treinamento passou por verificação manual. Posteriormente, a verificação foi automatizada com o uso do **audit-ui em conjunto com o Codex**, para apoiar a conferência dos dados.
+
+**Avaliação crítica:** as respostas e o código produzidos pela IA foram tratados como propostas que exigem revisão, e não como garantia de correção. A verificação manual de cada dado foi parte do controle de qualidade; a automação posterior apoiou esse processo, mas não elimina a possibilidade de erros nem a responsabilidade da equipe por validar os resultados. O auxílio de IA no treinamento também não deve ser confundido com a etapa de serving: durante o build e a execução do serviço, o bundle já treinado é carregado sem novo treinamento ou alteração dos pesos.
+
+A equipe é responsável por revisar, compreender e validar o código, as instruções e os resultados apresentados, inclusive os trechos gerados com auxílio de IA. Todos os integrantes devem estar preparados para explicar oralmente qualquer linha da entrega; código que ninguém da equipe saiba explicar não deve ser considerado entregue.
 
 ## 10. Licença
 
