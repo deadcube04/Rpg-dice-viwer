@@ -6,6 +6,8 @@ import io
 import os
 import sqlite3
 import uuid
+from collections.abc import Iterator
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -22,7 +24,7 @@ class FeedbackStore:
     def __init__(self) -> None:
         self.database = Path(os.environ.get("DICE_SQLITE_PATH", "runtime/feedback.db"))
         self.database.parent.mkdir(parents=True, exist_ok=True)
-        self.backend = os.environ.get("DICE_STORAGE_BACKEND", "s3")
+        self.backend = os.environ.get("DICE_STORAGE_BACKEND", "local")
         if self.backend not in {"local", "s3"}:
             raise ValueError("DICE_STORAGE_BACKEND must be local or s3")
         self.image_directory = Path(os.environ.get("DICE_LOCAL_IMAGE_DIR", "runtime/images"))
@@ -35,15 +37,21 @@ class FeedbackStore:
                 "s3", endpoint_url=os.environ.get("S3_ENDPOINT", "http://127.0.0.1:9000"),
                 aws_access_key_id=os.environ["S3_ACCESS_KEY"], aws_secret_access_key=os.environ["S3_SECRET_KEY"],
                 region_name=os.environ.get("S3_REGION", "us-east-1"),
-                config=Config(signature_version="s3v4", s3={"addressing_style": "path"}),
+                config=Config(signature_version="s3v4", s3={"addressing_style": "path"},
+                              connect_timeout=3, read_timeout=5, retries={"total_max_attempts": 2}),
             )
         self._create_schema()
 
-    def _connect(self) -> sqlite3.Connection:
+    @contextmanager
+    def _connect(self) -> Iterator[sqlite3.Connection]:
         connection = sqlite3.connect(self.database, timeout=10)
-        connection.row_factory = sqlite3.Row
-        connection.execute("PRAGMA foreign_keys=ON")
-        return connection
+        try:
+            connection.row_factory = sqlite3.Row
+            connection.execute("PRAGMA foreign_keys=ON")
+            with connection:
+                yield connection
+        finally:
+            connection.close()
 
     def _create_schema(self) -> None:
         with self._connect() as connection:

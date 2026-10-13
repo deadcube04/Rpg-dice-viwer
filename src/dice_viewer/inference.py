@@ -1,8 +1,8 @@
-"""Shared detector-to-reader inference path for evaluation and serving."""
+"""Inference paths for the saved detector and reader bundle."""
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
@@ -22,9 +22,6 @@ class DiePrediction:
     detector_confidence: float | None
     type_confidence: float
     value_confidence: float
-
-    def as_dict(self) -> dict[str, object]:
-        return asdict(self)
 
 
 def crop_xyxy(image: Image.Image, box: tuple[int, int, int, int], padding: float = 0.15) -> Image.Image:

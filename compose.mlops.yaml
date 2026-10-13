@@ -1,4 +1,5 @@
-name: dice-viewer-mlops
+# Overlay: docker compose -f compose.yaml -f compose.mlops.yaml up -d --build
+# Only serving feedback uses MinIO; the saved model is bundled in the image.
 services:
   minio:
     image: cgr.dev/chainguard/minio@sha256:4cf4831a2bbcf13ddca09c1cbcc9faff716dd3c4247e0babc32864b8ee8e0034
@@ -11,69 +12,32 @@ services:
       - "127.0.0.1:9001:9001"
     volumes:
       - minio-data:/data
-  mlflow:
-    image: ghcr.io/mlflow/mlflow:v3.15.1-full
-    command:
-      - mlflow
-      - server
-      - --backend-store-uri
-      - sqlite:////state/mlflow.db
-      - --artifacts-destination
-      - s3://dice-mlflow-artifacts
-      - --host
-      - 0.0.0.0
-      - --port
-      - "5000"
-      - --allowed-hosts
-      - localhost:*,127.0.0.1:5000,mlflow:5000
+  feedback-storage-init:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dice-viewer-demo:e33njkwb56yiiaa2
+    command: ["python", "-m", "dice_viewer.bootstrap"]
     environment:
-      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
-      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
-      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
-      AWS_DEFAULT_REGION: us-east-1
-    ports:
-      - "127.0.0.1:5000:5000"
-    volumes:
-      - mlflow-state:/state
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      S3_REGION: us-east-1
+      DICE_IMAGE_BUCKET: dice-feedback
     depends_on:
       minio:
         condition: service_started
-  feedback-init:
-    image: ${DICE_IMAGE:?Set DICE_IMAGE to an immutable Bento container tag}
-    user: "0:0"
-    entrypoint: ["/bin/sh", "-c"]
-    command: ["chown -R 1034:1034 /state"]
-    volumes:
-      - feedback-state:/state
     restart: "no"
   dice-service:
-    image: ${DICE_IMAGE:?Set DICE_IMAGE to an immutable Bento container tag}
     environment:
-      DICE_MODEL_TAG: ${DICE_MODEL_TAG:?Set DICE_MODEL_TAG to the promoted model tag}
       DICE_STORAGE_BACKEND: s3
       S3_ENDPOINT: http://minio:9000
       S3_ACCESS_KEY: ${MINIO_ROOT_USER}
       S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
       S3_REGION: us-east-1
       DICE_IMAGE_BUCKET: dice-feedback
-      DICE_SQLITE_PATH: /state/feedback.db
-    ports:
-      - "127.0.0.1:3000:3000"
-    volumes:
-      - feedback-state:/state
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
     depends_on:
-      minio:
-        condition: service_started
-      feedback-init:
+      feedback-storage-init:
         condition: service_completed_successfully
 volumes:
   minio-data:
-  mlflow-state:
-  feedback-state:

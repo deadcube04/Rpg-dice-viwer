@@ -1,4 +1,6 @@
 FROM python:3.11-slim@sha256:0dd364ba7e10242f07755449e3a3d0e35f9efd987952737b90def6709ab0c5ce
+LABEL io.dice-viewer.model="dice_bundle:e33njkwb56yiiaa2" \
+      io.dice-viewer.bundle-sha256="4d306b197cf4a2d245dfae23fd5c6993dc4d32eb59129a25a861de4a5308cd4d"
 COPY --from=ghcr.io/astral-sh/uv:0.12.23 /uv /uvx /bin/
 
 ENV PYTHONUNBUFFERED=1 \
@@ -25,7 +27,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 COPY service.py /app/service.py
 COPY src/dice_viewer /app/src/dice_viewer
-COPY artifacts-next/dice_bundle-e33njkwb56yiiaa2.bentomodel /tmp/dice_bundle.bentomodel
+COPY models/dice_bundle-e33njkwb56yiiaa2.bentomodel /tmp/dice_bundle.bentomodel
 RUN python -m dice_viewer.deployment import-model /tmp/dice_bundle.bentomodel \
     && rm /tmp/dice_bundle.bentomodel \
     && groupadd --gid 1034 dice \

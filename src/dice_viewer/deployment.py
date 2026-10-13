@@ -8,11 +8,9 @@ import json
 import os
 import sys
 from pathlib import Path
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
-from dice_viewer.active_model import ACTIVE_MODEL_TAG
-
-BUNDLE_SHA256 = "4d306b197cf4a2d245dfae23fd5c6993dc4d32eb59129a25a861de4a5308cd4d"
+from dice_viewer.active_model import ACTIVE_MODEL_TAG, BUNDLE_SHA256
 
 
 def model_folder() -> Path:
@@ -31,11 +29,13 @@ def model_folder() -> Path:
 
 
 def import_model(archive: Path) -> None:
+    archive = archive.expanduser().resolve()
     import bentoml
 
     if not archive.is_file():
         raise RuntimeError("Bundle ausente. Inclua o .bentomodel versionado no clone.")
-    digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+    with archive.open("rb") as stream:
+        digest = hashlib.file_digest(stream, "sha256").hexdigest()
     if digest != BUNDLE_SHA256:
         raise RuntimeError(f"SHA-256 do bundle divergente: esperado {BUNDLE_SHA256}; recebido {digest}.")
     model = bentoml.models.import_model(str(archive))
@@ -72,7 +72,11 @@ def serve() -> None:
 
 
 def healthcheck() -> None:
-    with urlopen("http://127.0.0.1:3000/health", timeout=8) as response:
+    request = Request(
+        "http://127.0.0.1:3000/v1/health", data=b"{}",
+        headers={"Content-Type": "application/json"}, method="POST",
+    )
+    with urlopen(request, timeout=8) as response:
         result = json.load(response)
     if result.get("status") != "ready" or result.get("model_version") != ACTIVE_MODEL_TAG:
         raise RuntimeError("Serviço não está pronto com o modelo esperado.")

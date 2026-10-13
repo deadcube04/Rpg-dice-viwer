@@ -1,35 +1,24 @@
 .venv/
 .tools/
 .cache/
-yolo11n.pt
 *.log
 __pycache__/
 *.py[cod]
 .env
-.dvc/cache/
-.dvc/tmp/
-data/raw/
-data/processed/
-data/audit-*/
 audit-ui/node_modules/
 audit-ui/dist/
 audit-ui/.bun-tmp/
 audit-ui/*.tsbuildinfo
-artifacts/*
-!artifacts/*.dvc
-!artifacts/promotion.json
-!artifacts/releases.jsonl
 runtime/
-mlruns/
 *.db
 *.db-*
 registros-apresentacao/
-
-# Serving clone only: retain the already-trained Bento bundle, not datasets or duplicate weights.
-/data/processed-next/
-/artifacts-next/*
-!/artifacts-next/dice_bundle-e33njkwb56yiiaa2.bentomodel
-
-# Local handoff files are working material, not repository deliverables.
-/HANDOFF_README.md
-/README*1*.md
+# Keep one canonical bundle; ignore generated or duplicate model weights.
+*.pt
+*.safetensors
+*.bentomodel
+!models/dice_bundle-e33njkwb56yiiaa2.bentomodel
+artifacts/
+artifacts-next/
+data/
+mlruns/
