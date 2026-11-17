@@ -5,4 +5,4 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
-from dice_viewer.service import DiceService  # noqa: E402,F401
+from dice_viewer.recognition.service import DiceRecognitionService as DiceService  # noqa: E402,F401

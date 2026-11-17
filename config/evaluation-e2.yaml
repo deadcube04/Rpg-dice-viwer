@@ -1,0 +1,51 @@
+candidate_id: v1-e1-20261117T175200Z
+dataset_root: data/datasets/v1-20261117-7b23477513de
+split: e2
+devices: [cuda, cpu]
+precision: FP32
+seed: 42
+torch_threads: 4
+detector:
+  imgsz: 640
+  candidate_threshold: 0.25
+  nms: false
+  quantize: 32
+  technical_max_candidates: 64
+  candidate_order: descending_confidence_then_xyxy_then_model_index
+classifier:
+  crop_batch_size: 8
+  preprocessing: body-margin10-letterbox224-imagenet-v1
+policy:
+  detection_threshold: 0.95
+  type_threshold: 0.80
+  value_threshold: 0.80
+  max_scene_candidates: 8
+  reject_incompatible_type_token: true
+matching:
+  iou_threshold: 0.50
+  objective: maximum_cardinality_then_maximum_total_iou
+  tie_break: lexicographically_smallest_prediction_ground_truth_pairs
+  accepted_items: separate_matching_against_all_ground_truth
+timing:
+  warmup_e1_images: 3
+  image_batch_size: 1
+  cuda_synchronize_at_stage_boundaries: true
+  include_image_decode: true
+  exclude_matching_and_metrics: true
+  exclude_model_loading: true
+ap:
+  device: cuda
+  evaluator: ultralytics_8.4.173
+  conf: 0.001
+  max_det: 300
+  batch: 8
+  workers: 0
+  rect: true
+  nms: false
+  quantize: 32
+scope:
+  offline_cascade_only: true
+  http_minio_service_complete: false
+  training_allowed: false
+  model_promotion_allowed: false
+  thresholds_or_weights_tuning_allowed: false

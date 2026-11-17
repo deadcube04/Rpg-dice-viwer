@@ -1,0 +1,6 @@
+2026-11-17T17:56:43-0300 [INFO] [cli] Starting production HTTP BentoServer from "recognition_service:DiceRecognitionService" listening on http://127.0.0.1:13001 (Press CTRL+C to quit)
+Transferred 606/708 items from pretrained weights
+2026-11-17T17:56:52-0300 [INFO] [entry_service:DiceRecognitionService:1] Initial approved model loaded: v1-e1-20261117T175200Z device=cuda:0 reason=cuda_available
+2026-11-17T17:56:52-0300 [INFO] [entry_service:DiceRecognitionService:1] Service DiceRecognitionService initialized
+2026-11-17T17:58:09-0300 [INFO] [entry_service:DiceRecognitionService:1] recognition request_id=3a87a2da2fca456980aeb98a7315b608 image_id=0428f57fac5243399fda65170bfc22ef http=200 status=needs_review (trace=8b9d2434e465e150bd9c66b3ad3c2d6d,span=972a846916419f82,sampled=0,service.name=DiceRecognitionService)
+2026-11-17T17:58:09-0300 [INFO] [entry_service:DiceRecognitionService:1] 127.0.0.1:42214 (scheme=http,method=POST,path=/v1/recognize,type=image/png,length=223302) (status=200,type=application/json,length=939) 1825.562ms (trace=8b9d2434e465e150bd9c66b3ad3c2d6d,span=972a846916419f82,sampled=0,service.name=DiceRecognitionService)

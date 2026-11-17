@@ -1,0 +1,2 @@
+run_id,status,started_at_utc,device,gpu,dataset,dataset_checksum_index,run_wall_seconds,torch,ultralytics
+v1-e1-20261117T175200Z,completed,2026-11-17T17:49:41.292090+00:00,cuda:0,NVIDIA GeForce RTX 2060,v1-20261117-7b23477513de,5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73,5094.242611299967,2.14.1+cu126,8.4.173

@@ -1,0 +1,18 @@
+[
+  {
+    "case": "review",
+    "versions_equal": true,
+    "decisions_equal": true,
+    "cpu_total_ms": 273.44167799992647,
+    "cuda_total_ms": 300.2791249996335,
+    "max_bbox_delta_pixels": 1.52587890625e-05
+  },
+  {
+    "case": "single",
+    "versions_equal": true,
+    "decisions_equal": true,
+    "cpu_total_ms": 250.19298600000184,
+    "cuda_total_ms": 198.8936510001622,
+    "max_bbox_delta_pixels": 3.0517578125e-05
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "status": "completed_and_accepted",
+  "approved": true,
+  "approved_by": "user",
+  "decision_reference": "confirmado",
+  "recorded_at_utc": "2026-11-17T22:09:04.587964+00:00",
+  "release_id": "v1-initial-20261117-r3",
+  "manifest_sha256": "ebdced78f7bc3847261794bbe6abf0f8eed9e5a08304e7d9d964dcab15d9e4ac",
+  "image_id": "sha256:835c7311e32c67c2296b9547d60d3a1627a4e217dfb43e7d6b9050dc32cd7058",
+  "stage7_delivery_manifest_sha256": "3fb8daea3ad93b71a895f7744694eda1e67c3cd61c72ce8f1296612697f7c6ea",
+  "candidate_id": "v1-e1-20261117T175200Z",
+  "original_plan_complete": true,
+  "pending_original_plan_steps": [],
+  "future_retraining": {
+    "planned": true,
+    "manual": true,
+    "scheduled": false,
+    "initial_weights_metrics_training_times_preserved": true
+  },
+  "training_or_deployment_started_by_this_confirmation": false
+}

@@ -1,0 +1,32 @@
+{
+  "detector": {
+    "sha256": "5a0c93fa86f7249197c3eb83391a2e1717602d1b8409f67bc2d6159a57af1d21",
+    "tensor_count": 708,
+    "floating_dtypes": [
+      "torch.float32"
+    ],
+    "nonfinite_tensors": [],
+    "bytes": 10161488,
+    "selected_epoch": 12,
+    "approved": false
+  },
+  "classifier": {
+    "sha256": "73e3c50ff1e77bf0c96d546b137e34e27ffac5df5efa84046d0aac3365f9f864",
+    "tensor_count": 124,
+    "floating_dtypes": [
+      "torch.float32"
+    ],
+    "nonfinite_tensors": [],
+    "bytes": 44830512,
+    "selected_epoch": 20,
+    "approved": false,
+    "type_head_shape": [
+      7,
+      512
+    ],
+    "value_head_shape": [
+      29,
+      512
+    ]
+  }
+}

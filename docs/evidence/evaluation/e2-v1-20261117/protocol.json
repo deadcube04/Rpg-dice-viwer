@@ -1,0 +1,204 @@
+{
+  "run_id": "e2-v1-20261117",
+  "frozen_at_utc": "2026-11-17T19:46:35.046470+00:00",
+  "configuration": {
+    "candidate_id": "v1-e1-20261117T175200Z",
+    "dataset_root": "data/datasets/v1-20261117-7b23477513de",
+    "split": "e2",
+    "devices": [
+      "cuda",
+      "cpu"
+    ],
+    "precision": "FP32",
+    "seed": 42,
+    "torch_threads": 4,
+    "detector": {
+      "imgsz": 640,
+      "candidate_threshold": 0.25,
+      "nms": false,
+      "quantize": 32,
+      "technical_max_candidates": 64,
+      "candidate_order": "descending_confidence_then_xyxy_then_model_index"
+    },
+    "classifier": {
+      "crop_batch_size": 8,
+      "preprocessing": "body-margin10-letterbox224-imagenet-v1"
+    },
+    "policy": {
+      "detection_threshold": 0.95,
+      "type_threshold": 0.8,
+      "value_threshold": 0.8,
+      "max_scene_candidates": 8,
+      "reject_incompatible_type_token": true
+    },
+    "matching": {
+      "iou_threshold": 0.5,
+      "objective": "maximum_cardinality_then_maximum_total_iou",
+      "tie_break": "lexicographically_smallest_prediction_ground_truth_pairs",
+      "accepted_items": "separate_matching_against_all_ground_truth"
+    },
+    "timing": {
+      "warmup_e1_images": 3,
+      "image_batch_size": 1,
+      "cuda_synchronize_at_stage_boundaries": true,
+      "include_image_decode": true,
+      "exclude_matching_and_metrics": true,
+      "exclude_model_loading": true
+    },
+    "ap": {
+      "device": "cuda",
+      "evaluator": "ultralytics_8.4.173",
+      "conf": 0.001,
+      "max_det": 300,
+      "batch": 8,
+      "workers": 0,
+      "rect": true,
+      "nms": false,
+      "quantize": 32
+    },
+    "scope": {
+      "offline_cascade_only": true,
+      "http_minio_service_complete": false,
+      "training_allowed": false,
+      "model_promotion_allowed": false,
+      "thresholds_or_weights_tuning_allowed": false
+    }
+  },
+  "config_sha256": "4b14d0a779a99f8b8b8396450f2abc6f0a6840459c698e4d3b9dcbc7d79857c6",
+  "candidate_manifest_sha256": "7240e226c46950d0b746769aff604bac7f2f247bc81eca01b83e151986816724",
+  "candidate": {
+    "candidate_id": "v1-e1-20261117T175200Z",
+    "status": "candidate",
+    "training_status": "completed",
+    "approved": false,
+    "results": {
+      "detector": {
+        "component": "detector",
+        "epochs_completed": 27,
+        "selected_epoch": 12,
+        "selected_AP50_95": 0.79089,
+        "final_validation_metrics": {
+          "metrics/precision(B)": 0.9677800523694635,
+          "metrics/recall(B)": 0.960925703098813,
+          "metrics/mAP50(B)": 0.9759838441670202,
+          "metrics/mAP50-95(B)": 0.7908866373844156
+        },
+        "setup_seconds": 18.74810989992693,
+        "training_seconds": 3609.483776399982,
+        "validation_seconds": 460.67544380016625,
+        "checkpoint_seconds": 25.24160189984832,
+        "final_validation_seconds": 16.182509999955073,
+        "component_wall_seconds": 4135.801139299991,
+        "batch_size": 8,
+        "stop_reason": "early_stopping",
+        "best_checkpoint_sha256": "5a0c93fa86f7249197c3eb83391a2e1717602d1b8409f67bc2d6159a57af1d21",
+        "peak_cuda_allocated_bytes": 2216890880
+      },
+      "classifier": {
+        "component": "classifier",
+        "epochs_completed": 28,
+        "selected_epoch": 20,
+        "selected_metrics": {
+          "type_loss": 0.23529557344276172,
+          "value_loss": 3.6432600921055056,
+          "type_accuracy": 0.9565217391304348,
+          "token_accuracy": 0.4412997903563941,
+          "normalized_value_accuracy": 0.44234800838574423,
+          "joint_accuracy": 0.42348008385744235,
+          "joint_normalized_accuracy": 0.42452830188679247,
+          "type_support": 966,
+          "value_support": 954,
+          "joint_support": 954,
+          "loss": 3.878555665548267,
+          "train_type_loss": 0.006874028851852785,
+          "train_value_loss": 0.009522532808211316
+        },
+        "final_validation_metrics": {
+          "type_loss": 0.23529557344276172,
+          "value_loss": 3.6432600921055056,
+          "type_accuracy": 0.9565217391304348,
+          "token_accuracy": 0.4412997903563941,
+          "normalized_value_accuracy": 0.44234800838574423,
+          "joint_accuracy": 0.42348008385744235,
+          "joint_normalized_accuracy": 0.42452830188679247,
+          "type_support": 966,
+          "value_support": 954,
+          "joint_support": 954,
+          "loss": 3.878555665548267
+        },
+        "setup_seconds": 0.3785278999712318,
+        "training_seconds": 785.5116246999241,
+        "validation_seconds": 109.94888739974704,
+        "checkpoint_seconds": 5.774125700001605,
+        "final_validation_seconds": 4.46388830000069,
+        "component_wall_seconds": 906.2132836999372,
+        "batch_size": 16,
+        "stop_reason": "early_stopping",
+        "best_checkpoint_sha256": "73e3c50ff1e77bf0c96d546b137e34e27ffac5df5efa84046d0aac3365f9f864",
+        "peak_cuda_allocated_bytes": 638297088
+      }
+    },
+    "dataset_checksum_index": "5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73",
+    "checkpoints": {
+      "detector": "detector/best.safetensors",
+      "classifier": "classifier/best.safetensors"
+    },
+    "label_maps_sha256": "9e33e82cc029d6f1a96597d11508ad5db05065779332a5bfaa45ba70c6612af7",
+    "preprocessing_sha256": "94593a8459e05f20ea27633f6260edaa27392b05055232f1decd8a9023edf4ff",
+    "time_reference": "reports\\training\\v1-e1-20261117T175200Z\\TIMING_REFERENCE.json"
+  },
+  "dataset_checksum_index": "5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73",
+  "e2_manifest_sha256": "f11f84360788adef5a5403d4380304c9570b5092c929d90e53fb731391b4ea45",
+  "images": 518,
+  "references": 1941,
+  "joint_references": 1747,
+  "fully_labeled_scenes": 360,
+  "approval_reference": "ok, pode seguir para a E2; continued by user after context/token interruption",
+  "execution_scope": "Offline cascade and E2 metrics on CUDA/CPU; no training, HTTP/MinIO deployment or model promotion",
+  "metric_definitions": {
+    "spatial": "maximum-cardinality, then maximum-total-IoU matching; threshold >= 0.50; class independent",
+    "recognition": "spatial pair plus exact type and textual token; wrong labels count as a recognition false prediction and missed correct reference",
+    "recognition_precision": "correct complete pairs / (returned predictions minus pairs with unknown joint reference); unmatched predictions are evaluable errors",
+    "scene_exact": "all reference type/token labels known, all instances correct, no extra returned objects; unknown-label scenes excluded",
+    "accepted": "separate matching of accepted predictions against ALL references; unknown-label pairs excluded from accepted precision; unmatched accepted predictions count as errors",
+    "automatic_coverage": "correct accepted reference objects / all jointly labeled ground-truth objects",
+    "manual_intervention": "images whose status is not ok / all processed images; includes no-candidate and over-eight errors",
+    "macro_f1": "conditional on spatially paired, labeled returned items; average over reference-supported classes, with all class supports shown",
+    "over_eight": "no partial successful return; internal detector candidates remain available for spatial diagnostics",
+    "invalid_geometry": "no successful return; invalid boxes remain in detector diagnostics as unmatched candidates",
+    "ap": "Separate pinned Ultralytics evaluator pass on CUDA with conf=0.001/max_det=300; operational cascade uses conf=0.25/max_det=64; not claimed as a full COCO evaluator",
+    "timing": "single-image offline synchronized wall clock, decoded image through final policy; excludes model loading and metric matching; not HTTP/client latency"
+  },
+  "context7": "Resolution attempted; MCP initialization failed. Official Ultralytics docs and installed source inspected.",
+  "documentation": [
+    "https://docs.ultralytics.com/modes/val/",
+    "https://docs.ultralytics.com/reference/engine/results/"
+  ],
+  "versions": {
+    "torch": "2.14.1+cu126",
+    "torchvision": "0.29.1+cu126",
+    "ultralytics": "8.4.173",
+    "pillow": "12.3.0",
+    "numpy": "2.4.6"
+  },
+  "supporting_hashes": {
+    "src\\dice_viewer\\models\\checkpoints.py": "2881068aea79443fb86235c04b66fb06a0621b68490f52b97400df754dd82adb",
+    "src\\dice_viewer\\models\\classifier.py": "112c248f79d52747f441fbeb7a3457a364d65afd2771f69836ccda7674fd6865",
+    "src\\dice_viewer\\models\\detector.py": "c64e85f80da3e8ad1f584d320fc9e07e082d24f36a3c4fbb6eb7fd83f477378e",
+    "src\\dice_viewer\\models\\inspect_components.py": "e24ba22a4b3152ad7d88edfad1898481b0f4a630d8d5803e7a5a4b6fa9c25672",
+    "src\\dice_viewer\\models\\labels.py": "0167de2c3f92b68b7c693e65bb2f52bdc4216eaa76092c4bd88bd36777f99769",
+    "src\\dice_viewer\\models\\losses.py": "9664719df05408087f354b73f33e1852e5d5e922f23e6e5bf8b6704879ebb144",
+    "src\\dice_viewer\\models\\preprocessing.py": "8064a9ae61bd8e5e34b0de16c62c24b1e00602539e154ff5ab4396a313752b94",
+    "src\\dice_viewer\\models\\runtime.py": "87287ac3593472e339706de0514bcce750ed212fb752509c9fab30115df95004",
+    "src\\dice_viewer\\models\\setup_components.py": "d9226b2021a276936e59b50b00cea184728c8fc93d9cce7a403c6ec5eeef5ca7",
+    "src\\dice_viewer\\models\\__init__.py": "cc499f03656ad810fcb0c37990937f89d0fac23570c88f78d676db419cc11339",
+    "src\\dice_viewer\\data\\grouping.py": "b32d4c36093c4215a618537297d8fbfdccc7cef97a6f94c84861b982201f531f",
+    "src\\dice_viewer\\data\\prepare.py": "5aeb22003a48bdc742772628e20d3a84bb58a9ba358baf8e9b1a4554cfae635d",
+    "src\\dice_viewer\\data\\schema.py": "da7895250748eb4d4993193da6b72d543918a6725c0af3694c0b09c1dce2d9b2",
+    "src\\dice_viewer\\data\\verify.py": "5dce61e69074ccee71dc68944afd9b40722fb790918446218b7126e2dea72379",
+    "src\\dice_viewer\\data\\__init__.py": "10c89f36093b9ff6db4653bfd3cce202b5ad1db5c70e86f65b4eb5e8afd45404",
+    "config\\yolo26n-die.yaml": "97eefb753f4afc4c51f557182ad33e9189b3204c9dd3cdfbb4204ed9d51f1201",
+    "config\\preprocessing.yaml": "94593a8459e05f20ea27633f6260edaa27392b05055232f1decd8a9023edf4ff",
+    "data\\datasets\\v1-20261117-7b23477513de\\manifests\\label_maps.json": "9e33e82cc029d6f1a96597d11508ad5db05065779332a5bfaa45ba70c6612af7"
+  }
+}

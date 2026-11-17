@@ -1,0 +1,8 @@
+phase,release_id,mode,seconds,warmup_seconds,status
+build,v1-initial-20261117-r2,cpu_cuda_image,865.7244604000589,,0
+build,v1-initial-20261117-r3,cpu_cuda_image,212.15672810003161,,0
+build,v1-initial-20261117,cpu_cuda_image,27.02651070000138,,1
+activate,v1-initial-20261117-r2,cpu,31.30719980003778,0.26826110999991215,healthy
+activate,v1-initial-20261117-r3,cuda,34.373950799927115,2.106335546000082,healthy
+rollback,v1-initial-20261117-r2,cpu,29.70003639999777,0.21852752099994177,healthy
+activate,v1-initial-20261117-r3,cpu,28.91726789996028,0.2271562180003457,healthy

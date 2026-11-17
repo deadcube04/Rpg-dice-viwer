@@ -1,0 +1,29 @@
+{
+  "available_ram_bytes": 5046841344,
+  "cpu": "Intel(R) Core(TM) i5-9400F CPU @ 2.90GHz",
+  "cuda_available": true,
+  "gpu": {
+    "compute_capability": [
+      7,
+      5
+    ],
+    "name": "NVIDIA GeForce RTX 2060",
+    "vram_bytes": 6442123264
+  },
+  "logical_processors": 6,
+  "nvidia_smi": "NVIDIA GeForce RTX 2060, 610.88, 6144 MiB, 5145 MiB",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "ram_bytes": 17122717696,
+  "torch_cuda_runtime": "12.6",
+  "torch_supported_architectures": [
+    "sm_50",
+    "sm_60",
+    "sm_61",
+    "sm_70",
+    "sm_75",
+    "sm_80",
+    "sm_86",
+    "sm_90"
+  ]
+}

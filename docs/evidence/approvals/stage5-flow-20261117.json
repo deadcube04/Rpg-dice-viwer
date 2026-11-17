@@ -1,0 +1,10 @@
+{
+  "stage": 5,
+  "approved": true,
+  "approved_by": "user",
+  "decision_reference": "testei e aprovei, pode seguir",
+  "date": "2026-11-17",
+  "model_id": "v1-e1-20261117T175200Z",
+  "stage5_delivery_manifest_sha256": "0728ac6703cbfad1a5981508d96d342555d13410f85f5fe7bc6ecaf657a94707",
+  "stage7_authorized": true
+}

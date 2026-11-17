@@ -1,0 +1,21 @@
+{
+  "status": "integrity_verified",
+  "files_hashed": 17450,
+  "canonical_images": 6915,
+  "images_by_partition": {
+    "train": 3846,
+    "val": 969,
+    "excluded_source": 1219,
+    "e2": 518,
+    "quarantine": 324,
+    "out_of_scope": 32,
+    "negative": 4,
+    "duplicate": 3
+  },
+  "crops_inspected": 6739,
+  "known_cross_partition_overlap": 0,
+  "source_manifest_sha256": "7b23477513dedc0d25de0740177b3f453055656662c5ad216c7e8e5a26166763",
+  "checksum_index_sha256": "5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73",
+  "verifier_sha256": "5dce61e69074ccee71dc68944afd9b40722fb790918446218b7126e2dea72379",
+  "scope": "Real exported data integrity and format inspection; no automated software tests or model evaluation"
+}

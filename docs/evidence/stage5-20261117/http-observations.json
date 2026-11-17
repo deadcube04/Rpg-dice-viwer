@@ -1,0 +1,308 @@
+[
+  {
+    "case": "cpu-review",
+    "http": 200,
+    "client_ms": 434.22529997769743,
+    "input_file": "needs_review.png",
+    "response": {
+      "request_id": "52cbe89b262b41a8b0331c270894b235",
+      "image_id": "9966280adef64d9e867948bf4154eb2d",
+      "status": "needs_review",
+      "results": [
+        {
+          "id": "die-1",
+          "bbox": [
+            206.2168426513672,
+            64.56253814697266,
+            389.4864807128906,
+            248.86341857910156
+          ],
+          "shape": "d20",
+          "die_type": "d20",
+          "face_value": 16,
+          "confidence": {
+            "detection": 0.8928043842315674,
+            "type": 0.9990323781967163,
+            "value": 0.9960817694664001
+          },
+          "auto_accepted": false,
+          "review_reasons": [
+            "low_detection_confidence"
+          ]
+        }
+      ],
+      "dices_count": 1,
+      "request_requires_review": true,
+      "thresholds": {
+        "detection": 0.95,
+        "type": 0.8,
+        "value": 0.8
+      },
+      "versions": {
+        "detector": "v1-e1-20261117T175200Z-detector",
+        "classifier": "v1-e1-20261117T175200Z-classifier",
+        "labels": "9e33e82cc029d6f1a96597d11508ad5db05065779332a5bfaa45ba70c6612af7",
+        "preprocessing": "body-margin10-letterbox224-imagenet-v1"
+      },
+      "timings_ms": {
+        "decode": 13.581300037913024,
+        "persist": 23.022199980914593,
+        "detect": 254.47360007092357,
+        "classify": 50.671599921770394,
+        "total": 389.0728000551462
+      }
+    }
+  },
+  {
+    "case": "cpu-empty",
+    "http": 404,
+    "client_ms": 225.95170000568032,
+    "input_file": "no_candidates.png",
+    "response": {
+      "request_id": "80559d824dc44ed38eee0a9c1f7ad64f",
+      "image_id": "7f5126f40efb42c89a37d72201b46161",
+      "status": "no_candidates",
+      "results": [],
+      "dices_count": 0,
+      "request_requires_review": true,
+      "thresholds": {
+        "detection": 0.95,
+        "type": 0.8,
+        "value": 0.8
+      },
+      "versions": {
+        "detector": "v1-e1-20261117T175200Z-detector",
+        "classifier": "v1-e1-20261117T175200Z-classifier",
+        "labels": "9e33e82cc029d6f1a96597d11508ad5db05065779332a5bfaa45ba70c6612af7",
+        "preprocessing": "body-margin10-letterbox224-imagenet-v1"
+      },
+      "timings_ms": {
+        "decode": 14.119299943558872,
+        "persist": 28.37860002182424,
+        "detect": 99.7007000260055,
+        "classify": 0.019700033590197563,
+        "total": 215.7941999612376
+      }
+    }
+  },
+  {
+    "case": "cpu-excess",
+    "http": 422,
+    "client_ms": 235.27860001195222,
+    "input_file": "too_many_candidates.png",
+    "response": {
+      "request_id": "794e8d82f1ff431e887a233a04677c95",
+      "image_id": "29bce14bb5654a718000e870eb31eca0",
+      "error": {
+        "code": "too_many_dice",
+        "message": "Foram detectados mais de oito candidatos; simplifique a cena.",
+        "retryable": false
+      }
+    }
+  },
+  {
+    "case": "cpu-val-single",
+    "http": 200,
+    "client_ms": 221.5728999581188,
+    "input_file": "single-val.png",
+    "response": {
+      "request_id": "d6c41dbd945749bdb137bcac2279127e",
+      "image_id": "ed3f0bf3c35447e3b75d68ee8ee47b42",
+      "status": "ok",
+      "results": [
+        {
+          "id": "die-1",
+          "bbox": [
+            131.5355987548828,
+            180.5257568359375,
+            335.8348388671875,
+            373.2406311035156
+          ],
+          "shape": "d10",
+          "die_type": "d10_tens",
+          "face_value": 40,
+          "confidence": {
+            "detection": 0.9508118629455566,
+            "type": 0.9998151659965515,
+            "value": 0.9077437520027161
+          },
+          "auto_accepted": true,
+          "review_reasons": []
+        }
+      ],
+      "dices_count": 1,
+      "request_requires_review": false,
+      "thresholds": {
+        "detection": 0.95,
+        "type": 0.8,
+        "value": 0.8
+      },
+      "versions": {
+        "detector": "v1-e1-20261117T175200Z-detector",
+        "classifier": "v1-e1-20261117T175200Z-classifier",
+        "labels": "9e33e82cc029d6f1a96597d11508ad5db05065779332a5bfaa45ba70c6612af7",
+        "preprocessing": "body-margin10-letterbox224-imagenet-v1"
+      },
+      "timings_ms": {
+        "decode": 5.920099909417331,
+        "persist": 23.236999986693263,
+        "detect": 88.3743999293074,
+        "classify": 59.954000054858625,
+        "total": 208.17449991591275
+      }
+    }
+  },
+  {
+    "case": "cpu-exif6",
+    "http": 200,
+    "client_ms": 224.3006998905912,
+    "input_file": "exif6.jpg",
+    "response": {
+      "request_id": "a03cae5deb3a42fc9526b5e760c9bdc3",
+      "image_id": "25b7ab1a8b73401c903a5da3c2a45e7d",
+      "status": "needs_review",
+      "results": [
+        {
+          "id": "die-1",
+          "bbox": [
+            206.45281982421875,
+            64.68170166015625,
+            389.4738464355469,
+            248.89892578125
+          ],
+          "shape": "d20",
+          "die_type": "d20",
+          "face_value": 16,
+          "confidence": {
+            "detection": 0.8927533030509949,
+            "type": 0.9985795021057129,
+            "value": 0.9552417993545532
+          },
+          "auto_accepted": false,
+          "review_reasons": [
+            "low_detection_confidence"
+          ]
+        }
+      ],
+      "dices_count": 1,
+      "request_requires_review": true,
+      "thresholds": {
+        "detection": 0.95,
+        "type": 0.8,
+        "value": 0.8
+      },
+      "versions": {
+        "detector": "v1-e1-20261117T175200Z-detector",
+        "classifier": "v1-e1-20261117T175200Z-classifier",
+        "labels": "9e33e82cc029d6f1a96597d11508ad5db05065779332a5bfaa45ba70c6612af7",
+        "preprocessing": "body-margin10-letterbox224-imagenet-v1"
+      },
+      "timings_ms": {
+        "decode": 9.825000073760748,
+        "persist": 14.597399975173175,
+        "detect": 86.26790007110685,
+        "classify": 62.60820000898093,
+        "total": 215.4937000013888
+      }
+    }
+  },
+  {
+    "case": "invalid-dimensions",
+    "http": 413,
+    "client_ms": 8.41839995700866,
+    "input_file": "oversized-dimensions.png",
+    "response": {
+      "request_id": "a3c8311a52314f8080fb67c3aa3423ff",
+      "image_id": null,
+      "error": {
+        "code": "image_too_large",
+        "message": "A imagem excede os limites de bytes, dimensões ou pixels.",
+        "retryable": false
+      }
+    }
+  },
+  {
+    "case": "invalid-pixels",
+    "http": 413,
+    "client_ms": 8.545599994249642,
+    "input_file": "oversized-pixels.png",
+    "response": {
+      "request_id": "1fd5b0919a6c46b7865fc3aa888d90df",
+      "image_id": null,
+      "error": {
+        "code": "image_too_large",
+        "message": "A imagem excede os limites de bytes, dimensões ou pixels.",
+        "retryable": false
+      }
+    }
+  },
+  {
+    "case": "invalid-query",
+    "http": 400,
+    "client_ms": 8.451399975456297,
+    "input_file": "needs_review.png",
+    "response": {
+      "request_id": "0fb919c0c4e3401e9b2931d611e065f6",
+      "image_id": null,
+      "error": {
+        "code": "invalid_request",
+        "message": "Requisição incompatível com o contrato.",
+        "retryable": false
+      }
+    }
+  },
+  {
+    "case": "cuda-review",
+    "http": 200,
+    "client_ms": 1832.0023000705987,
+    "input_file": "needs_review.png",
+    "response": {
+      "request_id": "3a87a2da2fca456980aeb98a7315b608",
+      "image_id": "0428f57fac5243399fda65170bfc22ef",
+      "status": "needs_review",
+      "results": [
+        {
+          "id": "die-1",
+          "bbox": [
+            206.21682739257812,
+            64.5625228881836,
+            389.4864807128906,
+            248.8634033203125
+          ],
+          "shape": "d20",
+          "die_type": "d20",
+          "face_value": 16,
+          "confidence": {
+            "detection": 0.8928045630455017,
+            "type": 0.9990323781967163,
+            "value": 0.9960816502571106
+          },
+          "auto_accepted": false,
+          "review_reasons": [
+            "low_detection_confidence"
+          ]
+        }
+      ],
+      "dices_count": 1,
+      "request_requires_review": true,
+      "thresholds": {
+        "detection": 0.95,
+        "type": 0.8,
+        "value": 0.8
+      },
+      "versions": {
+        "detector": "v1-e1-20261117T175200Z-detector",
+        "classifier": "v1-e1-20261117T175200Z-classifier",
+        "labels": "9e33e82cc029d6f1a96597d11508ad5db05065779332a5bfaa45ba70c6612af7",
+        "preprocessing": "body-margin10-letterbox224-imagenet-v1"
+      },
+      "timings_ms": {
+        "decode": 8.145499974489212,
+        "persist": 22.952300030738115,
+        "detect": 1570.4037999967113,
+        "classify": 157.35800005495548,
+        "total": 1813.6084999423474
+      }
+    }
+  }
+]

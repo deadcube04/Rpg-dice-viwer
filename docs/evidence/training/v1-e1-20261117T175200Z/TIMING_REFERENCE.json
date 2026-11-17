@@ -1,0 +1,167 @@
+{
+  "run_id": "v1-e1-20261117T175200Z",
+  "started_at_utc": "2026-11-17T17:49:41.292090+00:00",
+  "finished_at_utc": "2026-11-17T19:14:35.534543+00:00",
+  "run_wall_seconds": 5094.242611299967,
+  "outside_component_seconds": 52.22818830003962,
+  "phases": [
+    {
+      "run_id": "v1-e1-20261117T175200Z",
+      "component": "detector",
+      "phase": "finetune",
+      "epochs": 27,
+      "first_epoch": 1,
+      "last_epoch": 27,
+      "training_seconds": 3609.483776399982,
+      "validation_seconds": 460.67544380016625,
+      "checkpoint_seconds": 25.24160189984832,
+      "epoch_total_seconds": 4095.4380306996172,
+      "median_epoch_seconds": 150.6699942999985,
+      "minimum_epoch_seconds": 148.111622299999,
+      "maximum_epoch_seconds": 160.76821259991266,
+      "training_samples_per_second": 28.769210899063708
+    },
+    {
+      "run_id": "v1-e1-20261117T175200Z",
+      "component": "classifier",
+      "phase": "heads",
+      "epochs": 5,
+      "first_epoch": 1,
+      "last_epoch": 5,
+      "training_seconds": 125.6086150999181,
+      "validation_seconds": 22.875661900034174,
+      "checkpoint_seconds": 1.179261100012809,
+      "epoch_total_seconds": 149.66373329993803,
+      "median_epoch_seconds": 29.481816899962723,
+      "minimum_epoch_seconds": 28.61506580002606,
+      "maximum_epoch_seconds": 32.48768429993652,
+      "training_samples_per_second": 153.09459454435574
+    },
+    {
+      "run_id": "v1-e1-20261117T175200Z",
+      "component": "classifier",
+      "phase": "full_finetune",
+      "epochs": 23,
+      "first_epoch": 6,
+      "last_epoch": 28,
+      "training_seconds": 659.903009600006,
+      "validation_seconds": 87.07322549971286,
+      "checkpoint_seconds": 4.594864599988796,
+      "epoch_total_seconds": 751.5720488001825,
+      "median_epoch_seconds": 32.53349329996854,
+      "minimum_epoch_seconds": 32.28227940003853,
+      "maximum_epoch_seconds": 33.4607211999828,
+      "training_samples_per_second": 134.04697162029612
+    }
+  ],
+  "components": {
+    "detector": {
+      "component": "detector",
+      "epochs_completed": 27,
+      "selected_epoch": 12,
+      "selected_AP50_95": 0.79089,
+      "final_validation_metrics": {
+        "metrics/precision(B)": 0.9677800523694635,
+        "metrics/recall(B)": 0.960925703098813,
+        "metrics/mAP50(B)": 0.9759838441670202,
+        "metrics/mAP50-95(B)": 0.7908866373844156
+      },
+      "setup_seconds": 18.74810989992693,
+      "training_seconds": 3609.483776399982,
+      "validation_seconds": 460.67544380016625,
+      "checkpoint_seconds": 25.24160189984832,
+      "final_validation_seconds": 16.182509999955073,
+      "component_wall_seconds": 4135.801139299991,
+      "batch_size": 8,
+      "stop_reason": "early_stopping",
+      "best_checkpoint_sha256": "5a0c93fa86f7249197c3eb83391a2e1717602d1b8409f67bc2d6159a57af1d21",
+      "peak_cuda_allocated_bytes": 2216890880
+    },
+    "classifier": {
+      "component": "classifier",
+      "epochs_completed": 28,
+      "selected_epoch": 20,
+      "selected_metrics": {
+        "type_loss": 0.23529557344276172,
+        "value_loss": 3.6432600921055056,
+        "type_accuracy": 0.9565217391304348,
+        "token_accuracy": 0.4412997903563941,
+        "normalized_value_accuracy": 0.44234800838574423,
+        "joint_accuracy": 0.42348008385744235,
+        "joint_normalized_accuracy": 0.42452830188679247,
+        "type_support": 966,
+        "value_support": 954,
+        "joint_support": 954,
+        "loss": 3.878555665548267,
+        "train_type_loss": 0.006874028851852785,
+        "train_value_loss": 0.009522532808211316
+      },
+      "final_validation_metrics": {
+        "type_loss": 0.23529557344276172,
+        "value_loss": 3.6432600921055056,
+        "type_accuracy": 0.9565217391304348,
+        "token_accuracy": 0.4412997903563941,
+        "normalized_value_accuracy": 0.44234800838574423,
+        "joint_accuracy": 0.42348008385744235,
+        "joint_normalized_accuracy": 0.42452830188679247,
+        "type_support": 966,
+        "value_support": 954,
+        "joint_support": 954,
+        "loss": 3.878555665548267
+      },
+      "setup_seconds": 0.3785278999712318,
+      "training_seconds": 785.5116246999241,
+      "validation_seconds": 109.94888739974704,
+      "checkpoint_seconds": 5.774125700001605,
+      "final_validation_seconds": 4.46388830000069,
+      "component_wall_seconds": 906.2132836999372,
+      "batch_size": 16,
+      "stop_reason": "early_stopping",
+      "best_checkpoint_sha256": "73e3c50ff1e77bf0c96d546b137e34e27ffac5df5efa84046d0aac3365f9f864",
+      "peak_cuda_allocated_bytes": 638297088
+    }
+  },
+  "hardware": {
+    "platform": "Windows-10-10.0.26300-SP0",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "cpu": "Intel(R) Core(TM) i5-9400F CPU @ 2.90GHz",
+    "logical_processors": 6,
+    "ram_bytes": 17122717696,
+    "available_ram_bytes": 4692811776,
+    "cuda_available": true,
+    "torch_cuda_runtime": "12.6",
+    "torch_supported_architectures": [
+      "sm_50",
+      "sm_60",
+      "sm_61",
+      "sm_70",
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90"
+    ],
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 2060",
+      "vram_bytes": 6442123264,
+      "compute_capability": [
+        7,
+        5
+      ]
+    },
+    "nvidia_smi": "NVIDIA GeForce RTX 2060, 610.88, 6144 MiB, 5131 MiB"
+  },
+  "versions": {
+    "torch": "2.14.1+cu126",
+    "torchvision": "0.29.1+cu126",
+    "ultralytics": "8.4.173",
+    "pillow": "12.3.0",
+    "numpy": "2.4.6"
+  },
+  "recipe_hashes": {
+    "detector": "c03115fb834c934323d600e1610bd13897a770a8cd069bbcce771f56a9987ed6",
+    "classifier": "6ca53c3b0de81a38aadce3f18561b4bdfdadbd5b0a597cd14ccf74aef61eedf1"
+  },
+  "dataset_checksum_index": "5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73",
+  "time_semantics": "monotonic synchronized wall-clock seconds; not GPU-kernel-only time",
+  "postprocessing_not_included_in_run_time": true
+}

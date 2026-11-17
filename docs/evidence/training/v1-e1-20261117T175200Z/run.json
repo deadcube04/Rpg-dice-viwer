@@ -1,0 +1,212 @@
+{
+  "run_id": "v1-e1-20261117T175200Z",
+  "started_at_utc": "2026-11-17T17:49:41.292090+00:00",
+  "device": {
+    "requested": "cuda",
+    "resolved": "cuda:0",
+    "reason": "cuda_available"
+  },
+  "dataset_version": "v1-20261117-7b23477513de",
+  "dataset_checksum_index": "5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73",
+  "recipe_hashes": {
+    "detector": "c03115fb834c934323d600e1610bd13897a770a8cd069bbcce771f56a9987ed6",
+    "classifier": "6ca53c3b0de81a38aadce3f18561b4bdfdadbd5b0a597cd14ccf74aef61eedf1"
+  },
+  "hardware": {
+    "platform": "Windows-10-10.0.26300-SP0",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "cpu": "Intel(R) Core(TM) i5-9400F CPU @ 2.90GHz",
+    "logical_processors": 6,
+    "ram_bytes": 17122717696,
+    "available_ram_bytes": 4692811776,
+    "cuda_available": true,
+    "torch_cuda_runtime": "12.6",
+    "torch_supported_architectures": [
+      "sm_50",
+      "sm_60",
+      "sm_61",
+      "sm_70",
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90"
+    ],
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 2060",
+      "vram_bytes": 6442123264,
+      "compute_capability": [
+        7,
+        5
+      ]
+    },
+    "nvidia_smi": "NVIDIA GeForce RTX 2060, 610.88, 6144 MiB, 5131 MiB"
+  },
+  "versions": {
+    "torch": "2.14.1+cu126",
+    "torchvision": "0.29.1+cu126",
+    "ultralytics": "8.4.173",
+    "pillow": "12.3.0",
+    "numpy": "2.4.6"
+  },
+  "torch_threads": 4,
+  "approval_reference": "ok, aprovado, documente o tempo de treinamente tambem, para eu usar de comparação futuramente",
+  "approval_scope": "Stage 4 recipe and timing documentation; no Stage 5 or model promotion",
+  "training_configurations": {
+    "detector": {
+      "architecture": "config/yolo26n-die.yaml",
+      "pretrained": {
+        "url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n.pt",
+        "path": "artifacts/pretrained-v1/yolo26n.pt",
+        "sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+        "bytes": 5544453,
+        "purpose": "pretrained_initialization_only_not_a_trained_candidate"
+      },
+      "class_names": {
+        "0": "die"
+      },
+      "default_device": "cpu",
+      "precision": "FP32",
+      "prediction": {
+        "imgsz": 640,
+        "nms": false,
+        "quantize": 32,
+        "conf": 0.25,
+        "max_det": 64
+      },
+      "training": {
+        "epochs": 100,
+        "patience": 15,
+        "optimizer": "SGD",
+        "lr0": 0.01,
+        "lrf": 0.01,
+        "momentum": 0.937,
+        "weight_decay": 0.0005,
+        "seed": 42,
+        "deterministic": true,
+        "batch_by_device": {
+          "cuda": 8,
+          "cpu": 2
+        },
+        "imgsz": 640,
+        "amp": false,
+        "workers": 0,
+        "mosaic": 0.0,
+        "mixup": 0.0,
+        "cutmix": 0.0,
+        "copy_paste": 0.0,
+        "degrees": 0.0,
+        "fliplr": 0.0,
+        "flipud": 0.0,
+        "translate": 0.0,
+        "scale": 0.0,
+        "shear": 0.0,
+        "perspective": 0.0,
+        "hsv_h": 0.0,
+        "hsv_s": 0.1,
+        "hsv_v": 0.1,
+        "close_mosaic": 0,
+        "multi_scale": false,
+        "cos_lr": false,
+        "warmup_epochs": 3.0,
+        "cache": false,
+        "rect": false,
+        "fraction": 1.0,
+        "checkpoint_selection": "validation_AP50_95",
+        "on_out_of_memory": "stop; require a new recorded batch configuration"
+      },
+      "remaining_library_defaults": "reports/stage3-20261117/ultralytics-defaults.json"
+    },
+    "classifier": {
+      "backbone": "resnet18",
+      "pretrained_enum": "ResNet18_Weights.IMAGENET1K_V1",
+      "pretrained": {
+        "url": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+        "path": "artifacts/pretrained-v1/resnet18-f37072fd.pth",
+        "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+        "bytes": 46830571,
+        "purpose": "pretrained_initialization_only_not_a_trained_candidate"
+      },
+      "heads": "independent linear type and global token heads; no type conditioning",
+      "label_maps": "data/datasets/v1-20261117-7b23477513de/manifests/label_maps.json",
+      "default_device": "cpu",
+      "precision": "FP32",
+      "seed": 42,
+      "training": {
+        "epochs_total": 40,
+        "head_only_epochs": 5,
+        "full_finetune_max_epochs": 35,
+        "freeze_backbone_batchnorm_during_head_phase": true,
+        "optimizer": "AdamW",
+        "head_lr": 0.001,
+        "backbone_lr": 0.0001,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "weight_decay": 0.0001,
+        "scheduler": "constant",
+        "optimizer_phase_transition": "preserve head optimizer state; add backbone parameter group at epoch 6",
+        "gradient_accumulation": 1,
+        "batch_by_device": {
+          "cuda": 16,
+          "cpu": 4
+        },
+        "workers": 0,
+        "loss": "independent masked cross_entropy on raw logits",
+        "loss_weights": {
+          "type": 1.0,
+          "value": 1.0
+        },
+        "empty_task": "graph-connected zero; no mean over an empty set",
+        "checkpoint_selection": [
+          "max_joint_type_token_accuracy_on_jointly_labeled_validation_crops",
+          "min_validation_loss",
+          "earliest_epoch"
+        ],
+        "early_stopping_patience_full_finetune": 8,
+        "augmentation": {
+          "brightness_delta": 0.1,
+          "contrast_delta": 0.1,
+          "saturation_delta": 0.1,
+          "hue_delta": 0.0,
+          "flips": false,
+          "rotation": 0.0,
+          "training_only": true,
+          "before_normalization": true
+        },
+        "on_out_of_memory": "stop; require a new recorded batch configuration"
+      },
+      "scores": "separate softmax per head at inference; uncalibrated"
+    }
+  },
+  "e2_model_execution": false,
+  "initial_states": {
+    "architecture_sha256": "97eefb753f4afc4c51f557182ad33e9189b3204c9dd3cdfbb4204ed9d51f1201",
+    "label_maps_sha256": "9e33e82cc029d6f1a96597d11508ad5db05065779332a5bfaa45ba70c6612af7",
+    "pretrained_sources": {
+      "classifier": {
+        "bytes": 46830571,
+        "path": "artifacts/pretrained-v1/resnet18-f37072fd.pth",
+        "purpose": "pretrained_initialization_only_not_a_trained_candidate",
+        "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+        "url": "https://download.pytorch.org/models/resnet18-f37072fd.pth"
+      },
+      "detector": {
+        "bytes": 5544453,
+        "path": "artifacts/pretrained-v1/yolo26n.pt",
+        "purpose": "pretrained_initialization_only_not_a_trained_candidate",
+        "sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+        "url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n.pt"
+      }
+    },
+    "seed": 42,
+    "states": {
+      "resnet18-multihead.safetensors": "92f1ddba0fb587998f4f165494112d9e35d6d97f272cb7323a52bf8664d655df",
+      "yolo26n-die.safetensors": "5cfd3bcf7a1a360a2deb5819cc5c4aad765831e0cb3bd81fd8ff9e15e4a07425"
+    },
+    "status": "initialization_only_not_trained_not_approved_for_serving"
+  },
+  "time_semantics": "monotonic synchronized wall-clock seconds; not GPU-kernel-only time",
+  "comparison_constraints": "same dataset/groups, recipes, epochs, stop criterion, device, precision, versions and timing scope"
+}

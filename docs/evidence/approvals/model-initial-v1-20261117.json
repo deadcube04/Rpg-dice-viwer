@@ -1,0 +1,31 @@
+{
+  "candidate_id": "v1-e1-20261117T175200Z",
+  "approved": true,
+  "status": "approved_initial_baseline",
+  "approved_by": "user",
+  "approval_date": "2026-11-17",
+  "timezone": "America/Sao_Paulo",
+  "decision_reference": "aprovo esse como modelo inicial, mas ele ir\u00e1 passar por retreino posteriormente, deixe isso anotado no plano",
+  "scope": "Approval as the initial model/baseline with the measured E2 limitations; no deployment executed by this documentation change",
+  "evaluated_candidate_manifest_sha256": "7240e226c46950d0b746769aff604bac7f2f247bc81eca01b83e151986816724",
+  "evaluation_run_id": "e2-v1-20261117",
+  "evaluation_protocol_sha256": "31b68252e4b11e518ddaa7b0d499af60758b8ce40e9e770eaaba5dafb7edd0f6",
+  "weights": {
+    "detector": {
+      "path": "artifacts\\v1-e1-20261117T175200Z\\detector\\best.safetensors",
+      "sha256": "5a0c93fa86f7249197c3eb83391a2e1717602d1b8409f67bc2d6159a57af1d21"
+    },
+    "classifier": {
+      "path": "artifacts\\v1-e1-20261117T175200Z\\classifier\\best.safetensors",
+      "sha256": "73e3c50ff1e77bf0c96d546b137e34e27ffac5df5efa84046d0aac3365f9f864"
+    }
+  },
+  "retraining": {
+    "planned": true,
+    "automatic": false,
+    "scheduled": false,
+    "timing_data_strategy_and_hyperparameters": "to be defined in a subsequent manually initiated execution",
+    "preserve_initial_baseline_for_comparison": true
+  },
+  "deployment_executed": false
+}

@@ -1,0 +1,77 @@
+ETAPA 3 — AMBIENTE E COMPONENTES PREPARADOS
+
+Estado: aguarda aprovacao da receita para a Etapa 4. Nenhum treinamento iniciado.
+Aprovacao do dataset: usuario, 17/11/2026, vinculada ao indice de hashes da Etapa 2.
+Os arquivos congelados da Etapa 2 foram preservados. A aprovacao posterior esta
+registrada separadamente em data/preparation/dataset-approval.json.
+
+HARDWARE E AMBIENTE
+CPU: Intel(R) Core(TM) i5-9400F CPU @ 2.90GHz (6 processadores logicos).
+RAM: 15.95 GiB.
+GPU: NVIDIA GeForce RTX 2060; 6.00 GiB;
+compute capability 7.5; driver 610.88; runtime PyTorch CUDA 12.6.
+Python 3.11.9; uv 0.12.23; Torch 2.14.1+cu126; TorchVision 0.29.1+cu126;
+Ultralytics 8.4.173. Dependencias diretas exatas no pyproject; transitivas no uv.lock.
+Ambiente sincronizado, lock conferido e dependencias compativeis.
+
+COMPONENTES
+YOLO26n: arquitetura oficial adaptada a nc=1 e classe die; pesos oficiais como
+inicializacao. Cabecas de classe compativeis sao inicializadas para a nova tarefa.
+Na API fixada, head.end2end=True e predict(nms=False, quantize=32) selecionam
+inferencia one-to-one sem NMS, em FP32. Reg_max=1, conforme arquitetura YOLO26.
+ResNet18: backbone compartilhado, duas cabecas lineares independentes; 7 tipos
+e 29 tokens derivados dos mapas aprovados. Sem condicionamento de valor por tipo.
+Perdas CE sobre logits com mascaras independentes. Exemplos reais sem rotulo de
+tipo ou valor resultaram em perda zero somente na tarefa ausente, sem NaN.
+Backbone e BatchNorm permanecem congelados durante a fase inicial de cabecas.
+
+PREPROCESSAMENTO
+EXIF antes das caixas; imagem RGB; detector 640, letterbox da versao fixada.
+Classificador: margem de 10% por lado, limitada a imagem, proporcao preservada,
+padding preto, bilinear e 224x224; escala 0..1, media [0.485,0.456,0.406],
+desvio [0.229,0.224,0.225]. Recortes ja preparados recebem somente normalizacao.
+A geometria foi recomposta de uma imagem E1 real: diferenca de pixel normalizado zero.
+
+RECEITA PROPOSTA PARA APROVACAO
+Treinar detector e classificador separadamente, apenas com E1 aprovado.
+YOLO26n: ate 100 epocas, paciencia 15, SGD, LR 0.01, momentum 0.937,
+weight decay 0.0005; LR final proporcional 0.01; warmup de 3 epocas.
+Selecao pelo AP50:95 de validacao. Batch CUDA 8 ou CPU 2. AMP desativado (FP32).
+ResNet18 multihead: ate 40 epocas (5 somente cabecas + ate 35 completas),
+paciencia 8 na fase completa. AdamW, weight decay 0.0001, LR cabecas 0.001,
+backbone 0.0001, scheduler constante. Preservar estado do otimizador das cabecas
+e adicionar grupo do backbone na epoca 6. Batch CUDA 16 ou CPU 4.
+Selecao: acerto conjunto tipo+token nas instancias com ambos os rotulos;
+desempate por menor perda de validacao e depois epoca mais antiga.
+Pesos das perdas: tipo 1 e valor 1. Seed 42 e workers 0 em ambos os componentes.
+Sem mosaic/mixup/cutmix/copy-paste, flips, rotacoes ou aumentos geometricos.
+Variacoes fotometricas pequenas, apenas no treino; limites exatos nos YAMLs.
+Falta de memoria interrompe: reduzir batch exige nova configuracao registrada.
+Defaults completos da biblioteca fixada foram salvos em ultralytics-defaults.json.
+Config declarativa completa: config/detector.yaml e config/classifier.yaml.
+
+DADOS E LIMITACOES APROVADAS
+E1: 3846 imagens de treino e 969 de validacao; classificador usa 3846 e 966 recortes.
+E2: 518 cenas reservadas para avaliacao final; nenhuma imagem E2 ou de validacao
+foi usada na execucao de modelos nesta etapa. E2 nao serve para selecionar parametros.
+Sem supervisao conjunta no treino: d8:2, d8:5, d10:1, d10:7, d12:1, d12:3, d12:10.
+Validacao sem suporte conjunto em 22 combinacoes.
+D4: 21 exemplos conjuntos no treino, 3 imagens na validacao. Modalidade permanece
+desconhecida quando assim anotada. Quarentena e fonte d4 excluida permanecem preservadas.
+
+EVIDENCIAS E LIMITES DA ENTREGA
+Inspecoes executadas: CPU, CUDA e processo separado com CUDA_VISIBLE_DEVICES=-1,
+que selecionou CPU por fallback. Estados iniciais salvos em safetensors e recarregados
+com hashes e dimensoes conferidos. Nao ha backward, passo de otimizador ou treino.
+Nao foram criados ou executados testes automatizados. Compilacao Python conferida.
+Nao foi medida capacidade dos batches de treinamento, latencia, acuracia ou calibracao.
+A demonstracao CPU ocorreu no Windows com GPU mascarada, usando a wheel CUDA;
+nao constitui validacao de wheel CPU-only, Linux ou do futuro servico BentoML.
+Context7 foi tentado e falhou na inicializacao MCP; documentacao oficial e codigo
+instalado foram consultados. Referencias e decisao de API em documentation.json.
+Revisao estatica independente: sem achados bloqueantes pendentes.
+Nenhum Markdown foi alterado, nenhum comando Git de escrita foi executado.
+
+PROXIMO MARCO
+Aguardar aprovacao desta receita antes de implementar/executar o treinamento da Etapa 4.
+Pesos desta entrega sao INICIALIZACAO, nunca um modelo treinado ou liberado para uso.
