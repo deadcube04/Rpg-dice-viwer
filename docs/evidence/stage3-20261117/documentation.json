@@ -1,0 +1,13 @@
+{
+  "api_decision": "In installed Ultralytics 8.4.173, nms=False selects AutoBackend end2end=True; quantize=32 keeps FP32",
+  "context7": "Attempted library resolution for ultralytics and torchvision; both failed during MCP initialization",
+  "fallback": "Official documentation and inspection of the installed source of the pinned packages",
+  "references": [
+    "https://docs.ultralytics.com/models/yolo26/",
+    "https://docs.ultralytics.com/reference/nn/tasks/",
+    "https://docs.ultralytics.com/reference/nn/modules/head/",
+    "https://docs.ultralytics.com/modes/predict/",
+    "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet18.html",
+    "https://pytorch.org/get-started/previous-versions/"
+  ]
+}

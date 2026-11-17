@@ -1,0 +1,34 @@
+{
+  "after_minio_and_api_recreations": true,
+  "object_count": 4,
+  "objects": [
+    {
+      "case": "cpu-r2-review",
+      "image_id": "d01113facb1148f58057221c133881b0",
+      "bytes_equal": true,
+      "sha256": "35e587c5a1d61f08471bdd82e6b0b14c10bf54a4152b33a7f1f168351ccd6e5b",
+      "metadata_equal": true
+    },
+    {
+      "case": "cpu-r2-single",
+      "image_id": "6ad64645cceb453fbb9fe9de7f0adc92",
+      "bytes_equal": true,
+      "sha256": "a9bfaff121087bd422086afce16c81193ce76a80d6fde8f409c392275aa273da",
+      "metadata_equal": true
+    },
+    {
+      "case": "cuda-r3-review",
+      "image_id": "18ea67accab0439882cbba8046031888",
+      "bytes_equal": true,
+      "sha256": "35e587c5a1d61f08471bdd82e6b0b14c10bf54a4152b33a7f1f168351ccd6e5b",
+      "metadata_equal": true
+    },
+    {
+      "case": "cuda-r3-single",
+      "image_id": "6df922c6aff2491fa0db2a8ae2493478",
+      "bytes_equal": true,
+      "sha256": "a9bfaff121087bd422086afce16c81193ce76a80d6fde8f409c392275aa273da",
+      "metadata_equal": true
+    }
+  ]
+}

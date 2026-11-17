@@ -1,0 +1,54 @@
+backbone: resnet18
+pretrained_enum: ResNet18_Weights.IMAGENET1K_V1
+pretrained:
+  url: https://download.pytorch.org/models/resnet18-f37072fd.pth
+  path: artifacts/pretrained-v1/resnet18-f37072fd.pth
+  sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+  bytes: 46830571
+  purpose: pretrained_initialization_only_not_a_trained_candidate
+heads: independent linear type and global token heads; no type conditioning
+label_maps: data/datasets/v1-20261117-7b23477513de/manifests/label_maps.json
+default_device: cpu
+precision: FP32
+seed: 42
+training:
+  epochs_total: 40
+  head_only_epochs: 5
+  full_finetune_max_epochs: 35
+  freeze_backbone_batchnorm_during_head_phase: true
+  optimizer: AdamW
+  head_lr: 0.001
+  backbone_lr: 0.0001
+  betas:
+  - 0.9
+  - 0.999
+  eps: 1.0e-08
+  weight_decay: 0.0001
+  scheduler: constant
+  optimizer_phase_transition: preserve head optimizer state; add backbone parameter group at epoch 6
+  gradient_accumulation: 1
+  batch_by_device:
+    cuda: 16
+    cpu: 4
+  workers: 0
+  loss: independent masked cross_entropy on raw logits
+  loss_weights:
+    type: 1.0
+    value: 1.0
+  empty_task: graph-connected zero; no mean over an empty set
+  checkpoint_selection:
+  - max_joint_type_token_accuracy_on_jointly_labeled_validation_crops
+  - min_validation_loss
+  - earliest_epoch
+  early_stopping_patience_full_finetune: 8
+  augmentation:
+    brightness_delta: 0.1
+    contrast_delta: 0.1
+    saturation_delta: 0.1
+    hue_delta: 0.0
+    flips: false
+    rotation: 0.0
+    training_only: true
+    before_normalization: true
+  on_out_of_memory: stop; require a new recorded batch configuration
+scores: separate softmax per head at inference; uncalibrated

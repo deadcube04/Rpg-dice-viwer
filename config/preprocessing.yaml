@@ -1,0 +1,32 @@
+version: body-margin10-letterbox224-imagenet-v1
+orientation: EXIF transpose before applying canonical boxes
+detector:
+  imgsz: 640
+  channels: RGB
+  tensor_scale: 0..1
+  dtype: float32
+  geometry: Ultralytics pinned-version letterbox; reverse to original oriented pixels
+classifier:
+  crop_size:
+  - 224
+  - 224
+  margin_per_side: 0.1
+  clip_to_image: true
+  preserve_aspect_ratio: true
+  padding_rgb:
+  - 0
+  - 0
+  - 0
+  interpolation: bilinear
+  channels: RGB
+  tensor_scale: 0..1
+  mean:
+  - 0.485
+  - 0.456
+  - 0.406
+  std:
+  - 0.229
+  - 0.224
+  - 0.225
+  prepared_crops: normalize only; no second crop/resize
+  center_crop: false

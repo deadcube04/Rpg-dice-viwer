@@ -1,0 +1,24 @@
+{
+  "release_id": "v1-initial-20261117-r3",
+  "archive_sha256": "e230da200d18392693d34f94613c0db04cad8729b753839122f6819974693f09",
+  "release_sha256": "ebdced78f7bc3847261794bbe6abf0f8eed9e5a08304e7d9d964dcab15d9e4ac",
+  "parts": [
+    {
+      "name": "model.tar.gz.part01",
+      "bytes": 25165824,
+      "sha256": "96ce6bec1a98eb84a378fff2fe9039b373534491cca3e2af2ef7d49b83c6a940"
+    },
+    {
+      "name": "model.tar.gz.part02",
+      "bytes": 25165824,
+      "sha256": "060fea9a40aaa65a25afc11bd5d3ba2773cb8abe6c9bcf9a6b53bf5568beb4d6"
+    },
+    {
+      "name": "model.tar.gz.part03",
+      "bytes": 9589646,
+      "sha256": "15f8e74ff60bed492a7ad0b7aa8d0ef937c03fdb53ba204e6d7c4aea49a9f00f"
+    }
+  ],
+  "contains": "Approved FP32 safetensors, maps, policy, inference sources, exact Linux lock and frozen evaluation provenance",
+  "retraining": "manual future execution"
+}

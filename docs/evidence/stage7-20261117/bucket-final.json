@@ -1,0 +1,8 @@
+{
+  "object_count": 9,
+  "bucket": "dice-originals-v1",
+  "configuration": {
+    "policy": "NoSuchBucketPolicy",
+    "lifecycle": "NoSuchLifecycleConfiguration"
+  }
+}

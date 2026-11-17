@@ -6,3 +6,16 @@
 models/
 runtime/
 *.log
+audit/
+
+docs/
+data/
+artifacts/
+releases/
+reports/
+deploy/
+tools/
+**/node_modules/
+**/__pycache__/
+**/dist/
+**/*.tsbuildinfo

@@ -1,0 +1,51 @@
+{
+  "objects_in_isolated_bucket": 11,
+  "checks": [
+    {
+      "case": "final-cpu-review",
+      "image_id": "154f291fa53e405db80c79fd76ebec41",
+      "bytes_equal": true,
+      "sha256": "35e587c5a1d61f08471bdd82e6b0b14c10bf54a4152b33a7f1f168351ccd6e5b",
+      "sha256_metadata_equal": true
+    },
+    {
+      "case": "cpu-exif6",
+      "image_id": "25b7ab1a8b73401c903a5da3c2a45e7d",
+      "bytes_equal": true,
+      "sha256": "f28887450d11b4598b1a572f6566af1b6682d7e66ee74355aaefcfde5f26817d",
+      "sha256_metadata_equal": true
+    },
+    {
+      "case": "cpu-empty",
+      "image_id": "7f5126f40efb42c89a37d72201b46161",
+      "bytes_equal": true,
+      "sha256": "f318eb9fdbef1a655969301dfdab2a4ac5630d79e1974c4e5a1bef39163c791a",
+      "sha256_metadata_equal": true
+    },
+    {
+      "case": "cpu-excess",
+      "image_id": "29bce14bb5654a718000e870eb31eca0",
+      "bytes_equal": true,
+      "sha256": "5ddb49b77b15b198bbdc6306716727c44a65f43106b5d0ac7aac77866a3efaaa",
+      "sha256_metadata_equal": true
+    },
+    {
+      "case": "cpu-val-single",
+      "image_id": "ed3f0bf3c35447e3b75d68ee8ee47b42",
+      "bytes_equal": true,
+      "sha256": "a9bfaff121087bd422086afce16c81193ce76a80d6fde8f409c392275aa273da",
+      "sha256_metadata_equal": true
+    },
+    {
+      "case": "cuda-review",
+      "image_id": "0428f57fac5243399fda65170bfc22ef",
+      "bytes_equal": true,
+      "sha256": "35e587c5a1d61f08471bdd82e6b0b14c10bf54a4152b33a7f1f168351ccd6e5b",
+      "sha256_metadata_equal": true
+    }
+  ],
+  "bucket_configuration": {
+    "bucket_policy": "NoSuchBucketPolicy",
+    "lifecycle": "NoSuchLifecycleConfiguration"
+  }
+}

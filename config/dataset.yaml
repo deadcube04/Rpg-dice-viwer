@@ -1,0 +1,11 @@
+version: v1-20261117-7b23477513de
+root: data/datasets/v1-20261117-7b23477513de
+checksum_index_sha256: 5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73
+approval: data/preparation/dataset-approval.json
+detector_dataset: data/datasets/v1-20261117-7b23477513de/yolo/dataset.yaml
+label_maps: data/datasets/v1-20261117-7b23477513de/manifests/label_maps.json
+classifier_manifests:
+  train: data/datasets/v1-20261117-7b23477513de/classifier/train.jsonl
+  val: data/datasets/v1-20261117-7b23477513de/classifier/val.jsonl
+  e2: data/datasets/v1-20261117-7b23477513de/classifier/e2.jsonl
+e2_use: reserved_final_evaluation_only; never training or checkpoint selection

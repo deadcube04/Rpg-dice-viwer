@@ -4,23 +4,19 @@ version = "0.1.0"
 description = "Academic RPG die recognition service"
 requires-python = ">=3.11,<3.12"
 dependencies = [
-  "bentoml>=1.4,<2",
-  "boto3>=1.35,<2",
-  "numpy>=1.26,<3",
-  "pillow>=11,<13",
-  "prometheus-client>=0.21,<1",
-  "pydantic>=2,<3",
-  "python-multipart>=0.0.20,<1",
-  "safetensors>=0.5,<1",
-  "starlette>=0.40,<2",
-  "torch>=2.5,<3",
-  "torchvision>=0.20,<1",
-  "ultralytics>=8.3,<9",
+  "bentoml==1.4.39",
+  "boto3==1.43.106",
+  "numpy==2.4.6",
+  "pillow==12.3.0",
+  "prometheus-client==0.26.0",
+  "pydantic==2.13.5",
+  "python-multipart==0.0.32",
+  "safetensors==0.8.0",
+  "starlette==1.7.0",
+  "torch==2.14.1",
+  "torchvision==0.29.1",
+  "ultralytics==8.4.173",
 ]
-
-[project.scripts]
-dice-deploy = "dice_viewer.deployment:main"
-dice-release = "dice_viewer.release:main"
 
 [build-system]
 requires = ["hatchling>=1.26,<2"]
@@ -30,8 +26,8 @@ build-backend = "hatchling.build"
 packages = ["src/dice_viewer"]
 
 [tool.bentoml.build]
-service = "service:DiceService"
-include = ["service.py", "src/dice_viewer/**/*.py"]
+service = "recognition_service:DiceRecognitionService"
+include = ["recognition_service.py", "src/dice_viewer/**/*.py"]
 
 [tool.bentoml.build.python]
 extra_index_url = ["https://download.pytorch.org/whl/cu126"]

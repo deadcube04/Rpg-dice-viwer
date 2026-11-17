@@ -1,0 +1,16 @@
+[project]
+name = "rpg-dice-audit"
+version = "0.1.0"
+description = "Standalone local API for reviewing RPG dice image annotations"
+requires-python = ">=3.11,<3.12"
+dependencies = ["Pillow==12.3.0"]
+
+[project.scripts]
+dice-audit = "dice_audit.server:main"
+
+[build-system]
+requires = ["hatchling>=1.26,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dice_audit"]

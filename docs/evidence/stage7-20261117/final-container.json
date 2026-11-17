@@ -1,0 +1,32 @@
+{
+  "image_id": "sha256:835c7311e32c67c2296b9547d60d3a1627a4e217dfb43e7d6b9050dc32cd7058",
+  "user": "10001:10001",
+  "readonly_rootfs": true,
+  "device_requests": null,
+  "published_ports": {
+    "3000/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "23000"
+      }
+    ]
+  },
+  "health": "healthy",
+  "mounts": [
+    {
+      "Type": "volume",
+      "Destination": "/state",
+      "RW": true
+    },
+    {
+      "Type": "bind",
+      "Destination": "/run/secrets/minio_password",
+      "RW": false
+    },
+    {
+      "Type": "bind",
+      "Destination": "/run/secrets/minio_user",
+      "RW": false
+    }
+  ]
+}

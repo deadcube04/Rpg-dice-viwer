@@ -1,0 +1,12 @@
+{
+  "approved": true,
+  "reference": "ok, aprovado, documente o tempo de treinamente tambem, para eu usar de comparação futuramente",
+  "scope": "Stage 4 recipe and timing documentation; no Stage 5 or model promotion",
+  "dataset_checksum_index": "5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73",
+  "recipe_hashes": {
+    "detector": "c03115fb834c934323d600e1610bd13897a770a8cd069bbcce771f56a9987ed6",
+    "classifier": "6ca53c3b0de81a38aadce3f18561b4bdfdadbd5b0a597cd14ccf74aef61eedf1"
+  },
+  "registered_at_utc": "2026-11-17T17:49:41.422386+00:00",
+  "model_release_approved": false
+}

@@ -1,0 +1,70 @@
+ETAPA 2 — APROVACAO E PREPARACAO DO DATASET
+Snapshot aprovado: 20261117T160833997109Z
+SHA-256: 7b23477513dedc0d25de0740177b3f453055656662c5ad216c7e8e5a26166763
+Autorizacao do usuario nesta conversa: sim, aprovo (17/11/2026).
+A aprovacao cobre o snapshot e a execucao da Etapa 2. O dataset preparado ainda depende de conferencia.
+
+Politica: fonte roboflow/d4-turbo-rad-v4 excluida por decisao do usuario; originais preservados.
+Agrupamentos: hashes de arquivo e pixels, familias de nomes/aumentos, sequencias e sessoes inferidas (intervalo de ate 30 minutos), candidatos perceptuais conservadores.
+Todos os candidatos relacionados permanecem na mesma particao. Proximidade visual nao e confirmacao semantica de duplicacao.
+Cenas de grupo sao reservadas a E2. Imagens individuais relacionadas a E2 ficam em quarentena.
+Conflitos de anotacao em pixels identicos tambem ficam em quarentena; rotulos revisados nao foram sobrescritos.
+
+Quarentena: {"conflicting_exact_pixel_annotations":76,"related_to_reserved_e2":156,"incomplete_body_detection_supervision":92}
+Evidencias de agrupamento (contagens podem se sobrepor): {"byte_sha256":42,"pixel_sha256":42,"augmentation_family":1706,"sequence_family":3251,"capture_frame":21,"inferred_capture_session":1119,"potential_near_duplicate":2392}
+Suporte de treino por tipo (type=mascara tipo, value=mascara valor, joint=ambos): {"d20":{"type":1943,"value":1916,"joint":1916},"d10":{"type":479,"value":470,"joint":470},"d10_tens":{"type":663,"value":652,"joint":652},"d6":{"type":231,"value":214,"joint":214},"d8":{"type":138,"value":131,"joint":131},"d12":{"type":363,"value":352,"joint":352},"d4":{"type":28,"value":21,"joint":21},"unknown":{"type":0,"value":1,"joint":0}}
+Imagens de validacao por tipo: {"d10_tens":478,"d8":10,"d6":26,"d20":364,"d10":62,"d12":23,"d4":3,"unknown":3}
+
+Conferencia visual: quatro recortes reais de treino foram abertos (d4:4, d10_tens:00, d10:0, d6:1). A proporcao e o padding preservam o corpo e os tokens nesses exemplos.
+Nao foi realizada nova auditoria visual integral. Modalidade desconhecida nao foi inferida como pontos ou numerais.
+A primeira exportacao parcial foi interrompida e preservada com sufixo -interrupted. Esse diretorio NAO deve ser usado para treinamento.
+Nenhum treinamento, teste automatizado ou alteracao Git foi executado. Nenhum arquivo Markdown foi alterado.
+
+LACUNAS DE SUPERVISAO CONJUNTA E1 (ausentes em treino e validacao):
+d8:2
+d8:5
+d10:1
+d10:7
+d12:1
+d12:3
+d12:10
+
+O d4 possui 28 rotulos de tipo e 21 rotulos conjuntos no treino; apenas 3 imagens de d4 na validacao.
+O split prioriza integridade dos grupos e nao garante proporcao 80/20 por classe.
+
+RESULTADO DA EXPORTACAO
+Dataset: C:/MLops-dice-viwer/dice-viwer/data/datasets/v1-20261117-7b23477513de
+Imagens por particao: {"duplicate":3,"e2":518,"excluded_source":1219,"negative":4,"out_of_scope":32,"quarantine":324,"train":3846,"val":969}
+Recortes por particao: {"e2":1927,"train":3846,"val":966}
+Fracao real da validacao E1: 20.12%
+Grupos E1: 73; grupos de validacao: 33
+Combinacoes sem suporte conjunto na validacao: d4:1, d4:2, d4:3, d6:1, d6:3, d6:5, d8:1, d8:2, d8:3, d8:5, d8:8, d10:1, d10:7, d10:8, d10:10, d10_tens:20, d12:1, d12:3, d12:8, d12:9, d12:10, d20:12
+Instancias exportadas com modalidade desconhecida: 742
+A cobertura de E2 inclui todas as combinacoes legais, mas E2 nao sera usada para ajuste de pesos ou selecao de parametros.
+A independencia semantica completa nao foi demonstrada; o agrupamento protege todas as relacoes identificadas pelos criterios documentados.
+Relatorio de integridade externo: C:/MLops-dice-viwer/dice-viwer/data/preparation/stage2-verification.json
+
+VERIFICACAO FINAL
+{
+  "status": "integrity_verified",
+  "files_hashed": 17450,
+  "canonical_images": 6915,
+  "images_by_partition": {
+    "train": 3846,
+    "val": 969,
+    "excluded_source": 1219,
+    "e2": 518,
+    "quarantine": 324,
+    "out_of_scope": 32,
+    "negative": 4,
+    "duplicate": 3
+  },
+  "crops_inspected": 6739,
+  "known_cross_partition_overlap": 0,
+  "source_manifest_sha256": "7b23477513dedc0d25de0740177b3f453055656662c5ad216c7e8e5a26166763",
+  "checksum_index_sha256": "5ecbe03114abb68790e2319e6e7b26f745c422735d48895a86d2761b6c0d1a73",
+  "verifier_sha256": "5dce61e69074ccee71dc68944afd9b40722fb790918446218b7126e2dea72379",
+  "scope": "Real exported data integrity and format inspection; no automated software tests or model evaluation"
+}
+Compilacao Python concluida sem erros. Revisao independente sem achados pendentes apos correcoes.
+Parada do plano: aguardar aprovacao deste dataset e das limitacoes antes da Etapa 3.

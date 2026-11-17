@@ -1,0 +1,147 @@
+{
+  "classifier_crops_by_partition": {
+    "e2": 1927,
+    "train": 3846,
+    "val": 966
+  },
+  "e1_validation_fraction": 0.2012461059190031,
+  "exclusion_reasons": {
+    "above_eight_instances": 32,
+    "confirmed_negative_reserved_separately": 4,
+    "conflicting_exact_pixel_annotations": 76,
+    "exact_pixel_duplicate": 3,
+    "incomplete_body_detection_supervision": 92,
+    "related_to_reserved_e2": 156,
+    "source_excluded_by_user": 1219
+  },
+  "groups": {
+    "evidence_counts": {
+      "augmentation_family": 1706,
+      "byte_sha256": 42,
+      "capture_frame": 21,
+      "inferred_capture_session": 1119,
+      "pixel_sha256": 42,
+      "potential_near_duplicate": 2392,
+      "sequence_family": 3251
+    },
+    "largest": [
+      [
+        "group-0045f4a189fd1ef6222aadbc",
+        723
+      ],
+      [
+        "group-000a431725b0ee2e06033d4c",
+        680
+      ],
+      [
+        "group-0174fdc6d6564bfdc1fdfe3a",
+        463
+      ],
+      [
+        "group-000395c5142f061fe97ea809",
+        386
+      ],
+      [
+        "group-0044b500a898089672a9c34b",
+        386
+      ],
+      [
+        "group-0070cd08488c7017d5b35862",
+        371
+      ],
+      [
+        "group-05fccba1a269381d5e2bfd54",
+        327
+      ],
+      [
+        "group-00439d0ae02de6c5913d5e3f",
+        217
+      ],
+      [
+        "group-01affcf027f390167ed9ec31",
+        212
+      ],
+      [
+        "group-0190ef2edde65466b977feab",
+        200
+      ],
+      [
+        "group-00ba6c11967247668c10f9bb",
+        170
+      ],
+      [
+        "group-02047b016ae80a3c84f10b02",
+        134
+      ]
+    ],
+    "potential_near_duplicate_edges": 2392,
+    "total_active": 122
+  },
+  "images_by_partition": {
+    "duplicate": 3,
+    "e2": 518,
+    "excluded_source": 1219,
+    "negative": 4,
+    "out_of_scope": 32,
+    "quarantine": 324,
+    "train": 3846,
+    "val": 969
+  },
+  "instances_with_unknown_modality_in_export": 742,
+  "limitations": [
+    "Perceptual links are potential duplicates and conservatively kept together; no semantic duplicate confirmation is claimed.",
+    "Capture sessions inferred from filenames/timestamps with 30-minute maximum adjacent gap; camera and physical die identity may be unknown.",
+    "Whole inferred sequence families are grouped conservatively; 80/20 is approximate and grouped balance takes priority.",
+    "E1 members related to E2 are quarantined; no crops from group scenes enter E1 training or validation.",
+    "Conflicting exact-pixel annotations are quarantined; the approved review is not silently edited.",
+    "Unknown modality remains unknown; d6 pips coverage cannot be inferred from the type alone.",
+    "Missing joint support and separate type/value masks must be respected in training and reporting.",
+    "No model has been trained or evaluated. Dataset preparation does not authorize Stage 3.",
+    "Generalization to unseen physical dice or collections is not established by these splits."
+  ],
+  "missing_joint_e2_support": [],
+  "missing_joint_training_support": [
+    "d8:2",
+    "d8:5",
+    "d10:1",
+    "d10:7",
+    "d12:1",
+    "d12:3",
+    "d12:10"
+  ],
+  "missing_joint_validation_support": [
+    "d4:1",
+    "d4:2",
+    "d4:3",
+    "d6:1",
+    "d6:3",
+    "d6:5",
+    "d8:1",
+    "d8:2",
+    "d8:3",
+    "d8:5",
+    "d8:8",
+    "d10:1",
+    "d10:7",
+    "d10:8",
+    "d10:10",
+    "d10_tens:20",
+    "d12:1",
+    "d12:3",
+    "d12:8",
+    "d12:9",
+    "d12:10",
+    "d20:12"
+  ],
+  "prepared_dataset_approved": false,
+  "split_recipe": {
+    "e1_groups": 73,
+    "objective": 4.527568980518773,
+    "search_candidates": 512,
+    "seed": 42,
+    "target_validation_fraction": 0.2,
+    "validation_groups": 33
+  },
+  "stage": 2,
+  "status": "prepared_awaiting_user_review"
+}

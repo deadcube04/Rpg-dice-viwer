@@ -1,0 +1,9 @@
+audit-ui/node_modules/
+audit-ui/dist/
+audit-ui/.bun-tmp/
+audit-ui/*.tsbuildinfo
+audit-back/.venv/
+audit-back/runtime/
+audit-back/runtime-manual/
+__pycache__/
+*.py[cod]

@@ -1,0 +1,44 @@
+{
+  "reviewer": "/root/review_stage7",
+  "read_only": true,
+  "scope": "Stage 7 package, runtime operations, deployment manager, Dockerfile, CPU/CUDA Compose and Linux environment lock",
+  "findings": [
+    {
+      "severity": "Important",
+      "finding": "Recovery after failed activation must restore the last healthy active deployment",
+      "resolution": "pending.json preserves last_healthy; rollback uses it when activation is incomplete or failed",
+      "verification": "Reviewer inspected correction; successful full-image rollback also exercised manually. Failed activation branch was inspected, not deliberately induced"
+    },
+    {
+      "severity": "Important",
+      "finding": "Rollback must use historical image ID rather than newest build pointer",
+      "resolution": "Historical image_id and manifest hash are passed explicitly and checked; completed releases cannot be rebuilt",
+      "verification": "Actual CUDA r3 to CPU r2 rollback restored the historical image ID and healthy HTTP service"
+    },
+    {
+      "severity": "Minor",
+      "finding": "Pin the uv build tool by digest",
+      "resolution": "Final Dockerfile pins uv 0.12.23 at sha256:61d393e44e249f2e4b526b6c7ddcecce245946826e608e11c93ad4f5bba55b21",
+      "verification": "Final image built successfully"
+    },
+    {
+      "severity": "Recovery observation",
+      "finding": "Locally named MinIO image cannot be fetched from public registry on an empty cache",
+      "resolution": "Pin local image ID and export archive; preserve operational state and volumes",
+      "verification": "Archive exported and docker image load restored the same MinIO image ID"
+    }
+  ],
+  "runtime_observations": [
+    "CPU mode had no GPU device request; CUDA mode reserved one NVIDIA GPU and resolved cuda:0",
+    "Root filesystem read-only, user 10001:10001, state volume and read-only secret mounts verified",
+    "Private MinIO bucket and absence of lifecycle expiration verified",
+    "Four original images remained byte-identical after container recreation and rollback",
+    "Ultralytics settings directory falls back to writable /tmp; frozen inference artifacts remain verified"
+  ],
+  "out_of_scope_rulings": [
+    "Scientific quality remains represented by the approved frozen E1/E2 reports; no retraining or tuning performed",
+    "Remote publication and disaster recovery on another host were not performed",
+    "The first approved model has no preceding different approved trained model; r2/r3 validate packaging and device rollback with identical weights"
+  ],
+  "verification_method": "Independent read-only source review followed by implementer compilation and actual Docker/HTTP/S3/rollback inspections; no automated tests and no second review dispatched"
+}

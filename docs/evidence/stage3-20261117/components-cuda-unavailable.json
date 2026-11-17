@@ -1,0 +1,153 @@
+{
+  "classifier": [
+    {
+      "crop_id": "b7e73fcef1207628b6076e5a",
+      "finite_logits": true,
+      "image_id": "000395c5142f061fe97ea809",
+      "input_shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "losses": {
+        "loss": 6.882906913757324,
+        "type_count": 1,
+        "type_loss": 2.4323043823242188,
+        "value_count": 1,
+        "value_loss": 4.4506025314331055
+      },
+      "output_shapes": {
+        "type_logits": [
+          1,
+          7
+        ],
+        "value_logits": [
+          1,
+          29
+        ]
+      },
+      "type_mask": true,
+      "value_mask": true
+    },
+    {
+      "crop_id": "86d284e618bb3de52d37316f",
+      "finite_logits": true,
+      "image_id": "0ae53ebaf1482b0412b99cd1",
+      "input_shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "losses": {
+        "loss": 1.8485186100006104,
+        "type_count": 1,
+        "type_loss": 1.8485186100006104,
+        "value_count": 0,
+        "value_loss": 0.0
+      },
+      "output_shapes": {
+        "type_logits": [
+          1,
+          7
+        ],
+        "value_logits": [
+          1,
+          29
+        ]
+      },
+      "type_mask": true,
+      "value_mask": false
+    },
+    {
+      "crop_id": "dcaef1cbcc8d1ba99c402046",
+      "finite_logits": true,
+      "image_id": "a9f78a3b92344d00999e88a9",
+      "input_shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "losses": {
+        "loss": 2.48679256439209,
+        "type_count": 0,
+        "type_loss": 0.0,
+        "value_count": 1,
+        "value_loss": 2.48679256439209
+      },
+      "output_shapes": {
+        "type_logits": [
+          1,
+          7
+        ],
+        "value_logits": [
+          1,
+          29
+        ]
+      },
+      "type_mask": false,
+      "value_mask": true
+    }
+  ],
+  "cuda_visible_devices": "-1",
+  "detector": {
+    "backend_end2end": true,
+    "backend_fp16": false,
+    "end2end": true,
+    "head_classes": 1,
+    "names": {
+      "0": "die"
+    },
+    "output_box_tensor_shapes": [
+      [
+        0,
+        6
+      ]
+    ],
+    "prediction_nms_argument": false,
+    "purpose": "shape/loading inspection only; class head has not been trained for dice"
+  },
+  "device": {
+    "reason": "cuda_unavailable_cpu_fallback",
+    "requested": "auto",
+    "resolved": "cpu"
+  },
+  "e2_or_validation_model_execution": false,
+  "frozen_backbone": {
+    "backbone_trainable_parameters": 0,
+    "backbone_training_mode": false,
+    "batchnorm_training_modes": [
+      false
+    ],
+    "type_head_training_mode": true
+  },
+  "limitations": "No accuracy, calibration, training batch capacity or latency claim is made from this inspection",
+  "no_backward_or_optimizer_step": true,
+  "preprocessing": {
+    "crop_id": "b7e73fcef1207628b6076e5a",
+    "max_normalized_pixel_difference": 0.0,
+    "metadata": {
+      "padding_left_top": [
+        13,
+        0
+      ],
+      "resized_size": [
+        198,
+        224
+      ],
+      "source_crop_xyxy": [
+        218,
+        84,
+        532,
+        440
+      ],
+      "version": "body-margin10-letterbox224-imagenet-v1"
+    },
+    "same_geometry_as_stage2": true
+  },
+  "token_classes": 29,
+  "training_started": false,
+  "type_classes": 7
+}

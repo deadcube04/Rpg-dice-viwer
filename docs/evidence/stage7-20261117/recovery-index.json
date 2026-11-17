@@ -1,0 +1,24 @@
+{
+  "release_id": "v1-initial-20261117-r3",
+  "manifest_sha256": "ebdced78f7bc3847261794bbe6abf0f8eed9e5a08304e7d9d964dcab15d9e4ac",
+  "images": {
+    "api": "sha256:835c7311e32c67c2296b9547d60d3a1627a4e217dfb43e7d6b9050dc32cd7058",
+    "minio": "sha256:a3475aaa2694039238a5728913f45f58c45539012c74228796408fb8d9147ba6"
+  },
+  "files": {
+    "api.tar": {
+      "bytes": 4092903936,
+      "sha256": "e7485513ed24f8a68ac0c55d9a89a16fc25699bcfe86db9c2c1e61214e9a11bd"
+    },
+    "bundle.tar.gz": {
+      "bytes": 59921294,
+      "sha256": "e230da200d18392693d34f94613c0db04cad8729b753839122f6819974693f09"
+    },
+    "minio.tar": {
+      "bytes": 99887104,
+      "sha256": "0ada67ba47808ecb061a73701e932431d45de090ef70d74e284757c15f5d80f8"
+    }
+  },
+  "created_at_utc": "2026-11-17T21:47:01.045040+00:00",
+  "data_recovery_requires": "Preserved Docker volumes and runtime/v1/secrets"
+}

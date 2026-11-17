@@ -1,0 +1,70 @@
+name: dice-v1
+services:
+  minio:
+    image: ${DICE_MINIO_IMAGE:?Use the release environment file}
+    pull_policy: never
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER_FILE: /run/secrets/minio_user
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/minio_password
+    secrets: [minio_user, minio_password]
+    ports:
+      - "127.0.0.1:${DICE_MINIO_PORT:-29000}:9000"
+      - "127.0.0.1:${DICE_MINIO_CONSOLE_PORT:-29001}:9001"
+    volumes:
+      - originals:/data
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+  storage-init:
+    image: ${DICE_IMAGE:?Use the release environment file}
+    pull_policy: never
+    command: ["python", "-m", "dice_viewer.recognition.operations", "bootstrap"]
+    environment: &storage_environment
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY_FILE: /run/secrets/minio_user
+      S3_SECRET_KEY_FILE: /run/secrets/minio_password
+      DICE_IMAGE_BUCKET: dice-originals-v1
+    secrets: [minio_user, minio_password]
+    depends_on:
+      minio:
+        condition: service_started
+    read_only: true
+    tmpfs: ["/tmp:size=64m"]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    restart: "no"
+  api:
+    image: ${DICE_IMAGE:?Use the release environment file}
+    pull_policy: never
+    environment:
+      <<: *storage_environment
+      DICE_DEVICE: cpu
+      DICE_BUNDLE_SHA256: ${DICE_BUNDLE_SHA256:?Use the release environment file}
+    secrets: [minio_user, minio_password]
+    ports:
+      - "127.0.0.1:${DICE_API_PORT:-23000}:3000"
+    volumes:
+      - service-state:/state
+    depends_on:
+      storage-init:
+        condition: service_completed_successfully
+    read_only: true
+    tmpfs: ["/tmp:size=256m"]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    restart: unless-stopped
+    stop_grace_period: 45s
+    healthcheck:
+      test: ["CMD", "python", "-m", "dice_viewer.recognition.operations", "health"]
+      interval: 15s
+      timeout: 12s
+      start_period: 90s
+      retries: 3
+secrets:
+  minio_user:
+    file: ${DICE_SECRETS_DIR:?Run manage.py configure}/minio-user
+  minio_password:
+    file: ${DICE_SECRETS_DIR:?Run manage.py configure}/minio-password
+volumes:
+  originals:
+  service-state:

@@ -1,0 +1,22 @@
+{
+  "metrics": {
+    "metrics/precision(B)": 0.39761699771943726,
+    "metrics/recall(B)": 0.29417825862957236,
+    "metrics/mAP50(B)": 0.2467517310894952,
+    "metrics/mAP50-95(B)": 0.08781354267945898,
+    "fitness": 0.08781354267945898
+  },
+  "AP75": 0.025876412685590593,
+  "parameters": {
+    "device": "cuda",
+    "evaluator": "ultralytics_8.4.173",
+    "conf": 0.001,
+    "max_det": 300,
+    "batch": 8,
+    "workers": 0,
+    "rect": true,
+    "nms": false,
+    "quantize": 32
+  },
+  "wall_seconds": 22.62491770007182
+}
