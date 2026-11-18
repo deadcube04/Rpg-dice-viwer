@@ -17,11 +17,6 @@ Consultar readiness ou /metrics não gera eventos de inferência nesse arquivo.
 | --- | --- | --- |
 | runtime/portable/dice-observability/observability/recognition.jsonl | Log ativo do serviço; cresce durante o uso normal | Permanece no runtime ignorado |
 
-A cópia de entrega é uma captura fixa, não é atualizada automaticamente pelo
-serviço. Estar fora do gitignore não significa já estar versionada: ela só
-acompanha um clone depois de incluída em um commit. Não versione credenciais,
-volumes ou todo o runtime para entregar esse arquivo.
-
 ## 1. Antes de começar
 
 Abra o PowerShell na pasta do repositório, onde está o arquivo justfile.
