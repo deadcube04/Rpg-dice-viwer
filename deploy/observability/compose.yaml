@@ -1,0 +1,18 @@
+services:
+  api:
+    environment:
+      PYTHONPATH: /instrumented/src
+      BENTOML_HOME: /tmp/bentoml
+      DICE_OBSERVABILITY_DIR: /state/observability
+      DICE_LOG_MAX_BYTES: ${DICE_LOG_MAX_BYTES:-10485760}
+      DICE_LOG_RETENTION_DAYS: ${DICE_LOG_RETENTION_DAYS:-30}
+      DICE_LOG_MAX_TOTAL_BYTES: ${DICE_LOG_MAX_TOTAL_BYTES:-1073741824}
+    command: ["python", "-m", "bentoml", "serve", "dice_viewer.recognition.service:DiceRecognitionService", "--host", "0.0.0.0", "--port", "3000"]
+    volumes:
+      - type: bind
+        source: ${DICE_OBSERVABILITY_SOURCE_DIR:?Use tools/observe.py}
+        target: /instrumented/src
+        read_only: true
+      - type: bind
+        source: ${DICE_OBSERVABILITY_HOST_DIR:?Use tools/observe.py}
+        target: /state/observability

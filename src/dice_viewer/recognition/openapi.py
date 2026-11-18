@@ -6,6 +6,7 @@ import uuid
 from starlette.responses import JSONResponse
 
 from .contract import error_response
+from .observability import current_observation
 
 
 def complete_spec(spec):
@@ -43,8 +44,11 @@ class ContractDocumentation:
             media_type = headers.get(b"content-type", b"").split(b";")[0].strip().lower()
             if media_type not in (b"image/jpeg", b"image/png"):
                 # Reject before BentoML's special pickle deserializer/checker.
-                response = JSONResponse(error_response(uuid.uuid4().hex, None, "unsupported_media_type"),
-                                        status_code=415)
+                body = error_response(uuid.uuid4().hex, None, "unsupported_media_type")
+                observation = current_observation()
+                if observation is not None:
+                    observation.set_response(body)
+                response = JSONResponse(body, status_code=415)
                 return await response(scope, receive, send)
         if scope["type"] != "http" or scope["path"] != "/docs.json":
             return await self.app(scope, receive, send)

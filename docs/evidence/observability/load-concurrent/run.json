@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-18T01:58:27.869856+00:00",
+  "target": "http://127.0.0.1:24000/v1/recognize",
+  "seed": 42,
+  "requests": 6,
+  "warmup": 1,
+  "concurrency": 3,
+  "timeout_seconds": 45,
+  "inputs": [
+    {
+      "sha256": "68a8ac65194feaf3b3aa15ea854d89c6571ad2e39bea989503b3f557b47c27a6",
+      "bytes": 1271,
+      "content_type": "image/png"
+    },
+    {
+      "sha256": "8d9c1c714e9b419458ee2a8a7240b29724403bbc52cb0db27f1e73ad635705cb",
+      "bytes": 44701,
+      "content_type": "image/png"
+    }
+  ],
+  "python": "3.11.9",
+  "retries": 0,
+  "redirects": false
+}

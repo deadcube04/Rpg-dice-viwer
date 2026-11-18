@@ -41,3 +41,20 @@ stop project="dice-model":
 
 model-info:
     {{python}} -m json.tool "models/{{release}}/manifest.json"
+
+# Reproducible HTTP load; output is a new directory under runtime/load.
+load manifest requests="10" seed="42" concurrency="1" port="24000":
+    {{python}} tools/load.py --manifest "{{manifest}}" --requests {{requests}} --seed {{seed}} --concurrency {{concurrency}} --base-url "http://127.0.0.1:{{port}}"
+
+# Current instrumentation over approved model artifacts, CPU by default.
+observe project="dice-observability" port="25000":
+    {{python}} tools/observe.py run --project "{{project}}" --port "{{port}}"
+
+observe-status project="dice-observability":
+    {{python}} tools/observe.py status --project "{{project}}"
+
+observe-logs project="dice-observability":
+    {{python}} tools/observe.py logs --project "{{project}}"
+
+observe-stop project="dice-observability":
+    {{python}} tools/observe.py stop --project "{{project}}"

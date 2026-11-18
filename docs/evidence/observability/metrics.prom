@@ -1,0 +1,50 @@
+# HELP bentoml_service_last_request_timestamp_seconds Timestamp of the last received request
+# TYPE bentoml_service_last_request_timestamp_seconds gauge
+bentoml_service_last_request_timestamp_seconds{pid="28",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 1.7949688139784768e+09
+# HELP bentoml_service_request_duration_seconds runner RPC duration in seconds
+# TYPE bentoml_service_request_duration_seconds histogram
+bentoml_service_request_duration_seconds_sum{endpoint="/v1/recognize",http_response_code="404",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 4.983344430997931
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="0.005",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="0.01",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="0.025",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="0.05",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="0.1",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="0.25",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 34.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="0.5",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="1.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="2.5",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="5.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="10.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="30.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="60.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="120.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="180.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="404",le="+Inf",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_count{endpoint="/v1/recognize",http_response_code="404",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_duration_seconds_sum{endpoint="/v1/recognize",http_response_code="503",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0485101720005332
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="0.005",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 7.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="0.01",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 7.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="0.025",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="0.05",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="0.1",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="0.25",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="0.5",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="1.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="2.5",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="5.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="10.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="30.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="60.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="120.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="180.0",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_bucket{endpoint="/v1/recognize",http_response_code="503",le="+Inf",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+bentoml_service_request_duration_seconds_count{endpoint="/v1/recognize",http_response_code="503",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0
+# HELP bentoml_service_request_in_progress Total number of runner RPC in progress now
+# TYPE bentoml_service_request_in_progress gauge
+bentoml_service_request_in_progress{endpoint="/v1/recognize",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0
+# HELP bentoml_service_request_total Total number of runner RPC
+# TYPE bentoml_service_request_total counter
+bentoml_service_request_total{endpoint="/v1/recognize",http_response_code="200",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0
+bentoml_service_request_total{endpoint="/v1/recognize",http_response_code="500",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 0.0
+bentoml_service_request_total{endpoint="/v1/recognize",http_response_code="404",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 35.0
+bentoml_service_request_total{endpoint="/v1/recognize",http_response_code="503",runner_name="DiceRecognitionService",service_name="DiceRecognitionService",service_version="not available"} 10.0

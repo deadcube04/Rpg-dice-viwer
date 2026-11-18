@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "complete": true,
+  "measured_attempts": 6,
+  "warmup_attempts": 1,
+  "http_status_counts": {
+    "404": 5,
+    "200": 1
+  },
+  "client_error_counts": {},
+  "sent_attempts": 6,
+  "http_responses": 6,
+  "latency_samples": 6,
+  "latency_ms": {
+    "p50": 280.36789999987377,
+    "p95": 417.2303999994256,
+    "p99": 417.2303999994256
+  },
+  "run_wall_seconds": 2.1689007000004494,
+  "failed_attempts_including_warmup": 0
+}

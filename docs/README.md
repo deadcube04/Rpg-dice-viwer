@@ -1,6 +1,9 @@
 # Documentação da V1
 
 - [Executar o modelo a partir de um clone](EXECUCAO.md).
+- [Observabilidade MLOps: executar, calcular e interpretar](OBSERVABILIDADE.md).
+- [Entendimento do negócio e escolha das variáveis](ENTENDIMENTO_DO_NEGOCIO.md).
+- [Evidências de observabilidade para avaliação](evidence/observability/README.md).
 - [Decisões de organização e distribuição](DECISOES_REPOSITORIO.md).
 - [Resultado da revisão e execução isolada](REVISAO_FINAL.md).
 - [Plano e encerramento da V1](plans/PLANO_IMPLEMENTACAO_V1.md).

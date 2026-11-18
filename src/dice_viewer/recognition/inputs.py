@@ -12,6 +12,8 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 from PIL.JpegImagePlugin import JpegImageFile
 from PIL.PngImagePlugin import PngImageFile
 
+from .observability import current_observation
+
 MAX_BYTES = 10_485_760
 
 
@@ -39,6 +41,9 @@ class BinaryImage(bentoml.IODescriptor):
     async def from_http_request(cls, request, serde):
         value = cls(request_id=uuid.uuid4().hex,
                     content_type=request.headers.get("content-type", "").split(";")[0].strip().lower())
+        observation = current_observation()
+        if observation is not None:
+            observation.set_input(value.request_id)
         try:
             if request.query_params or request.headers.get("content-encoding", "identity").lower() != "identity":
                 raise InputError(400, "invalid_request")

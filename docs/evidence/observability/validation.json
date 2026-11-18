@@ -1,0 +1,43 @@
+{
+  "captured_at_utc": "2026-11-18T02:32:29.534669+00:00",
+  "scope": "Academic observability validation; synthetic load does not assess model accuracy",
+  "cpu_default_verified": true,
+  "release_files_verified": 126,
+  "full_suite": {
+    "executed": 60,
+    "passed": 59,
+    "skipped": 1,
+    "skip_reason": "Windows symlink privilege"
+  },
+  "linux_storage_suite": {
+    "executed": 13,
+    "passed": 13
+  },
+  "linux_full_suite": {
+    "executed": 60,
+    "passed": 60,
+    "skipped": 0
+  },
+  "live_sequential_and_concurrent_reconciliation": "passed",
+  "portable_launcher_start_stop_resume": "passed",
+  "development_events": {
+    "request": 91,
+    "die": 33
+  },
+  "portable_events": {
+    "request": 66
+  },
+  "final_measured_attempts": 20,
+  "final_http_status_counts": {
+    "404": 20
+  },
+  "final_latency_ms": {
+    "mean": 159.83002000029956,
+    "median": 146.3233999993463,
+    "p95_nearest_rank": 197.17529999979888,
+    "min": 126.36329999986629,
+    "max": 299.7080000004644
+  },
+  "human_final_approval": "pending",
+  "git_commit_push_merge": "not performed"
+}

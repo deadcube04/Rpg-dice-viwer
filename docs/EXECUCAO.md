@@ -1,5 +1,9 @@
 # Executar o modelo aprovado
 
+Para a aplicação com logging, características de imagens, Prometheus e carga,
+use [o guia de observabilidade](OBSERVABILIDADE.md) e `just observe`. Os comandos
+`just up`/`tools/model.py run` abaixo preservam a execução da release original.
+
 ## Atalhos com Just
 
 Com Just instalado, execute as receitas na raiz do repositório. `just` lista os comandos. O launcher Python continua disponível separadamente.
