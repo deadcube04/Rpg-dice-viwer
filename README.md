@@ -16,7 +16,6 @@ Consultar readiness ou /metrics não gera eventos de inferência nesse arquivo.
 | Arquivo | Finalidade | Git |
 | --- | --- | --- |
 | runtime/portable/dice-observability/observability/recognition.jsonl | Log ativo do serviço; cresce durante o uso normal | Permanece no runtime ignorado |
-| [docs/evidence/observability/recognition.jsonl](docs/evidence/observability/recognition.jsonl) | Cópia para o professor avaliar | **Deve ser adicionada e commitada na entrega; está fora do gitignore** |
 
 A cópia de entrega é uma captura fixa, não é atualizada automaticamente pelo
 serviço. Estar fora do gitignore não significa já estar versionada: ela só
