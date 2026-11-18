@@ -4,19 +4,6 @@ O serviço reconhece dados físicos de RPG em imagens. Esta entrega registra
 entradas numéricas, resultados, tempos e erros em JSONL e expõe GET /metrics.
 O contrato de POST /v1/recognize e os artefatos científicos foram preservados.
 
-## O log é automático — onde fica e o que deve ser versionado
-
-**O uso normal da API já grava o log. Não é necessário executar o gerador de
-carga nem ativar um modo especial.** Em um diretório novo, apenas subir o
-serviço não cria o JSONL: ele é criado automaticamente quando a primeira
-requisição POST /v1/recognize termina, inclusive se ela retornar erro.
-Se o arquivo já existir, novos eventos são acrescentados ao histórico.
-Consultar readiness ou /metrics não gera eventos de inferência nesse arquivo.
-
-| Arquivo | Finalidade | Git |
-| --- | --- | --- |
-| runtime/portable/dice-observability/observability/recognition.jsonl | Log ativo do serviço; cresce durante o uso normal | Permanece no runtime ignorado |
-
 ## 1. Antes de começar
 
 Abra o PowerShell na pasta do repositório, onde está o arquivo justfile.

@@ -88,7 +88,9 @@ class JsonlWriter:
     def from_environment(cls):
         root = Path(os.environ.get("DICE_PROJECT_ROOT", Path(__file__).resolve().parents[3]))
         state = Path(os.environ.get("DICE_STATE_DIR", root / "runtime"))
-        directory = Path(os.environ.get("DICE_OBSERVABILITY_DIR", state / "observability"))
+        default_directory = (state / "observability" if "DICE_STATE_DIR" in os.environ
+                             else root / "logs/recognition/native")
+        directory = Path(os.environ.get("DICE_OBSERVABILITY_DIR", default_directory))
         try:
             policy = LogPolicy(
                 max_bytes=int(os.environ.get("DICE_LOG_MAX_BYTES", 10 * 1024 * 1024)),

@@ -59,8 +59,7 @@ def main():
             verify_overlay(ROOT,release)
             subprocess.run([sys.executable,str(ROOT/'tools/model.py'),'run',
                             '--project',args.project,'--port',str(args.port)],check=True)
-        state=ROOT/'runtime/portable'/args.project
-        logs=state/'observability'
+        logs=ROOT/'logs/recognition'/args.project
         if args.command=='run':
             logs.mkdir(parents=True,exist_ok=True)
         env=os.environ.copy()
